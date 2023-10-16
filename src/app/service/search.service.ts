@@ -25,7 +25,7 @@ export class SearchService {
 
   getRestaurants(city: string, keyword:string, newOffset: number):Observable<{ restaurants: Restaurant[], total: number }>{
     const headers = new HttpHeaders({
-          'Authorization': 'Bearer 2sisBbGRMgR2XQpnm9mGtIc4tNco4qvLXFYMCjgvIAFoE2U-D6gQRAL1DzuIY_aqAbqAC7C6-fan-8SqsMOlRW0NV2iOLq6epnSWufSdA2Baf32wrg9n3Gcvb9_rZHYx',
+          'Authorization': 'YOUR-AUTH-KEY',
           'accept': 'application/json'
         });
         return this.http.get(this.apiUrl + `?location=${city}&term=${keyword}&sort_by=best_match&limit=5&offset=${newOffset}`, {headers: headers})
