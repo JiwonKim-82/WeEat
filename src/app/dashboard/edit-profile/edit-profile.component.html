@@ -1,0 +1,43 @@
+<div class="body">
+    <div class="container">
+        <form [formGroup]="EditForm" (ngSubmit)="onSubmit()">
+          
+          <!-- Username Input -->
+          <div class="row username">
+            <mat-form-field>
+                <mat-label>Enter your new username</mat-label>
+                <input matInput id="username" placeholder="minimum length 8" formControlName="userName">
+                <mat-error *ngIf="!EditForm.get('userName').valid && EditForm.get('userName').touched">
+                  Username has to be minimum 8 characters
+                </mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- Profile Image Section -->
+          <div class="row profile-img-section">
+            <div class="col-xs-12 preview">
+              <img [src]="imagePreview" alt="">
+            </div>
+            
+            <div class="col-xs-12 img-file-upload">
+                <label>
+                  <input type="file" (change)="selectFile($event)" />
+                </label>
+            </div>
+          </div>      
+                
+          <!-- Buttons Section -->      
+          <div class="row">
+            <div class="col-xs-12 buttons">
+                <button 
+                class="m-1" 
+                mat-raised-button 
+                color="primary" type="submit" 
+                [disabled]="!EditForm.valid">Submit</button>
+                <button type="button" class="m-1" mat-raised-button color="warn" (click)="onCancel()">Cancel</button>
+            </div>
+          </div>
+        </form>
+    </div>
+</div>
+    

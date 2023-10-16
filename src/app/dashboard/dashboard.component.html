@@ -1,0 +1,89 @@
+
+<body>
+    <div class="container">
+        <div class="profile-section">
+            <div class="profile-img-section">
+                <img *ngIf="isCurrentUserProfile && currentUser" [src]="currentUser.profileURL" alt="">
+                <img *ngIf="!isCurrentUserProfile && routeUser" [src]="routeUser.profileURL" alt="">
+            </div>
+            
+            <div class="profile-info">
+                <div class="username">{{ isCurrentUserProfile ? currentUser?.userName : routeUser?.userName }}</div>
+                <div class="email">{{ isCurrentUserProfile ? currentUser?.email : routeUser?.email }}</div>
+                
+                <div class="buttons">
+                    <button mat-stroked-button *ngIf="isCurrentUserProfile" (click)="openProfileEditDialog(currentUser?.uid)">Edit Profile</button>
+                    <button mat-stroked-button *ngIf="!isCurrentUserProfile" (click)="addFriends()">
+                        <mat-icon>group_add</mat-icon>
+                        Add Friends
+                    </button>
+                    <button mat-stroked-button *ngIf="isCurrentUserProfile" color="primary" [routerLink]="['/search']">Search Restaurant</button>
+                </div>
+            </div>
+        </div>
+        
+        <mat-tab-group animationDuration="500ms">
+            <mat-tab label="POSTS">
+                <ng-template mat-tab-label>
+                    <mat-icon>apps</mat-icon>
+                     POSTS
+                </ng-template>
+                <div *ngIf="loadingPosts" class="loading-spinner">
+                    <mat-spinner diameter="48"></mat-spinner>
+                </div>
+                <div *ngIf="!loadingPosts && posts && posts.length === 0" class="no-post">
+                    <img src="assets/images/restaurant.png" alt="">
+                    <div>No Post Yet</div>
+                </div>
+                <div class="posting-container" *ngIf="!loadingPosts && posts">
+                    <div class="posting" *ngFor="let post of posts">
+                        <div class="posting-item" (click)="openPostDialog(post, isCurrentUserProfile)">
+                            <img class="img-fluid" [src]="post.fileUrl" alt="">
+                            <div class="posting-item-info">
+                                <ul>
+                                <li class="posting-item-name">{{post.restaurant.name}}</li>
+                                <li class="posting-item-favorite" *ngIf="post.isFavorite">
+                                    <button mat-icon-button color="warn" aria-label="Favorite">
+                                    <i class="material-icons">favorite</i>
+                                    </button>
+                                </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </mat-tab>
+            <mat-tab label="FAVORITES">
+                <ng-template mat-tab-label>
+                    <mat-icon>favorite</mat-icon>
+                     FAVORITES
+                </ng-template>
+                <div *ngIf="loadingPosts" class="loading-spinner">
+                    <mat-spinner diameter="48"></mat-spinner>
+                </div>
+                <div *ngIf="!loadingPosts && favoritePosts && favoritePosts.length === 0" class="no-post">
+                    <img src="assets/images/restaurant.png" alt="">
+                    <div>No Post Yet</div>
+                </div>
+                <div class="posting-container" *ngIf="!loadingPosts && favoritePosts">
+                    <div class="posting" *ngFor="let post of favoritePosts">
+                        <div class="posting-item" (click)="openPostDialog(post, isCurrentUserProfile)">
+                            <img class="img-fluid" [src]="post.fileUrl" alt="">
+                            <div class="posting-item-info">
+                                <ul>
+                                <li class="posting-item-name">{{post.restaurant.name}}</li>
+                                <li class="posting-item-favorite" *ngIf="post.isFavorite">
+                                    <button mat-icon-button color="warn" aria-label="Favorite">
+                                    <i class="material-icons">favorite</i>
+                                    </button>
+                                </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </mat-tab>
+          </mat-tab-group>
+    </div>
+</body>
+

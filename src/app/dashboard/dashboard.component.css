@@ -1,0 +1,157 @@
+/* Common styles for buttons */
+.container{
+  max-width: 900px;
+  padding-top: 100px;
+  padding-bottom: 30px;
+}
+
+.buttons button {
+    border: 0;
+    outline: 0;
+    background: #f3f3f3;
+  }
+  
+/* Profile section  */
+.profile-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 25px;
+}
+
+.profile-info{
+  text-align: center;
+}
+  
+/* Profile image section */
+.profile-img-section {
+  margin-right: 20px;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+  
+/* Profile image */
+.profile-img-section img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+  
+/* Username and email styles */
+.username {
+  margin-bottom: 8px;
+  font-size: 30px;
+}
+  
+.email {
+  margin-bottom: 8px;
+  font-size: 15px;
+}
+  
+/* Button container */
+.buttons {
+  display: flex;
+  gap: 5px;
+}
+  
+/* Grid layout for postings */
+.posting-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 3px;
+}
+ 
+/* Loading spinner */
+.loading-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px; /* Adjust the height as needed */
+}
+  
+/* No Post Yet message */
+.no-post {
+  margin-top: 10px;
+  text-align: center;
+}
+  
+.no-post img {
+  width: 125px;
+  height: 125px;
+}
+  
+/* Individual posting items */
+.posting img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.posting-item{
+  position: relative;
+}
+  
+.posting-item-info {
+  display: none;
+}
+  
+/* Hover effect for posting items */
+.posting-item:hover .posting-item-info,
+.posting-item:focus .posting-item-info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position:absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 1;
+}
+  
+.posting-item-info li {
+  display: inline-block;
+  font-size: 1rem;
+  font-weight: 600;
+}
+  
+.posting-item-name {
+  margin-right: 2.2rem;
+}
+  
+.posting-item-favorite {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+  
+.posting-item-favorite button {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+  
+.posting-item-type {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 2.5rem;
+  text-shadow: 0.2rem 0.2rem 0.2rem rgba(0, 0, 0, 0.1);
+}
+  
+/* Responsive styles for smaller screens */
+  @media screen and (max-width: 700px) {
+    .posting {
+      grid-gap: 6.5px;
+    }
+  
+    .profile-img-section {
+      width: 150px;
+      height: 150px;
+    }
+  }
+  

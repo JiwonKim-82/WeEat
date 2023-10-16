@@ -1,0 +1,110 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.container {
+  padding: 20px;
+}
+
+/* Centered section styles */
+.centered-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+/* Restaurant name styling */
+.name {
+  font-size: 24px;
+}
+
+/* Category and price styling */
+.category-price {
+  font-size: 18px;
+}
+
+/* Location styling */
+.location {
+  font-size: 16px;
+}
+
+/* Default image styling */
+.default-img {
+  width: 300px;
+  height: 300px;
+  margin: 10px 0 10px 0;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+/* Image cropper container styling */
+.image-cropper {
+  width: 300px;
+  height: 300px;
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Cropped image styling */
+.selected-img {
+  width: 300px;
+  height: 300px;
+}
+
+/* Dropup container styling */
+.dropup {
+  display: flex;
+  align-items: center;
+}
+
+.dropup img {
+  border: 1.5px solid white;
+  width: 150px;
+  height: auto;
+}
+
+/* Styling for the preview image */
+.dropup .material-icons {
+  width: 30px;
+  height: 30px;
+  color: black;
+}
+
+/* Material icons styling */
+.dropup button {
+  background-color: transparent;
+  color: black;
+  text-align: center;
+  border: none;
+}
+
+/* Dropup button styling */
+.buttons {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Styling for buttons section */
+.description {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 10px;
+}
+
+/* Full-width text area styling */
+.description .full-width {
+  width: 100%;
+}
+
+/* Styling for the progress bar */
+mat-progress-bar {
+  margin: 20px 0;
+}

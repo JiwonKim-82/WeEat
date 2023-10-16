@@ -1,0 +1,64 @@
+/* Basic reset and global styles */
+* {
+    margin: 0;
+    padding: 0;
+  }
+  
+/* Body styles */
+.body {
+  display: flex;
+  flex-direction: column;
+  justify-content:center; 
+  align-items: center; /* Vertically center align for larger screens */
+  gap: 20px;
+  height: 100vh;
+  padding: 20px;
+  background-image: url("src/assets/images/Login-Image.png");
+}
+  
+/* Slogan styles */
+.slogan {
+  color: white;
+  text-align: center; /* Center-align slogan for all screens */
+  font-size: 50px;
+  font-weight: bold;
+}
+
+.slogan div{
+  text-shadow: black 0.1em 0.1em 0.2em;
+  letter-spacing: 1px;
+}
+  
+/* Container styles */
+.container {
+  max-width: 500px;
+  background: #ffffffc8;
+  padding: 25px 30px;
+  border-radius: 5px;
+   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+  
+/* Mat-form-field styles */
+mat-form-field {
+  width: 90%;
+}
+  
+/* Row styles */
+.row {
+  display: flex;
+  justify-content: center;
+}
+  
+/* Button styles */
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.buttons button {
+  min-width: 200px;
+  height: 45px;
+  border-radius: 7px;
+}
+  

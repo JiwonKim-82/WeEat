@@ -1,0 +1,130 @@
+/* Post Detail Container */
+.post-detail {
+    display: flex;
+    align-items: flex-start;
+    background-color: white;
+    overflow: auto;
+}
+
+/* Post Image Container */
+.post-image {
+    width: 50%;
+    height: 100%;
+    position: sticky;
+}
+
+/* Image Styles */
+.post-image img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
+
+/* Favorite Icon Button */
+.post-image button {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    z-index: 1;
+    background-color: rgba(255, 255, 255, 0.308);
+}
+
+/* Post Information Container */
+.post-info {
+    flex: 1;
+    width: 50%;
+    height: 100%;
+    padding: 10px;
+    overflow-y: auto;
+    max-height: 100%;
+    position: relative;
+}
+
+/* Post Name Styles */
+.post-name {
+    font-size: 20px;
+    font-weight: bold;
+    text-shadow: 0.2rem 0.2rem 0.2rem rgba(0, 0, 0, 0.1);
+}
+
+/* Post Category and Price Styles */
+.post-category-price {
+    font-size: 15px;
+}
+  
+/* Post Location Styles */
+.post-location {
+    font-size: 13px;
+}
+
+/* Description Box Styles */
+.description-box {
+    width: 90%;
+}
+
+/* Description Styles */
+.description-box .description {
+    width: 100%;
+    margin: 15px;
+}
+
+.description-box .description div {
+    margin: 0 0 10px 0;
+}
+  
+/* Post Description Styles */
+.post-description {
+    border: 1px solid #673AB7;
+    border-radius: 10px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    color: black;
+    padding: 20px;
+    font-size: 14px;
+    margin-left: 20px;
+}
+
+/* Menu Button Styles */
+.menu-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+/* Delete Button Styles */
+.delete-button {
+    color: red;
+}
+
+/* Responsive Styles */
+@media (max-width: 750px) {
+    .post-detail {
+        height: 600px;
+        flex-direction: column;
+    }
+
+    .post-image {
+        flex: 1;
+        width: 100%; 
+        max-height: 60%;
+    }
+
+    .post-image img {
+        width: 100%;
+        height: 100%;
+        margin: 0px;
+        object-fit: cover;
+    }
+
+    .post-info {
+        width: 100%;
+        height: 40%;
+        flex: 0 0 auto; 
+    }
+
+    .post-location,
+    .post-category-price {
+        display: none;
+    }
+    
+}
+

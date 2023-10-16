@@ -1,0 +1,135 @@
+.container{
+    max-width: 800px;
+    padding-top: 60px;
+}
+
+/* Search box style */
+.search-box{
+    height: 65px;
+    max-width: 800px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background: transparent;
+    border:solid 1px #abaaaa;
+    border-radius: 60px;
+    padding: 0px 5px;
+    margin: 30px;
+    gap: 10px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+/* Vertical Line Styles */
+.vl {
+    border-left: 1.5px solid #abaaaa;
+    height: 100%;
+  }
+
+/* Search Input Styles */  
+.search-box input{
+    width: 70%;
+    height: 100%;
+    background: transparent;
+    border: none;
+    padding: 0px 10px;
+}
+
+.search-box input:focus{
+    outline: none;
+}
+
+/* Heading Styles */
+.heading{
+    font-size: 28px;
+}
+
+/* Horizontal line style */
+.line{
+    margin-top: 5px;
+    border: solid 0.5px #abaaaa;
+}
+
+/* Loading Spinner Styles */
+.loading-spinner {
+    display: flex;
+    justify-content: center;
+    margin: 50px;
+}
+
+/* Restaurant information style */
+.restaurant-info{
+    height: 175px;
+    display: flex;
+    align-items: center;
+    border-radius: 10px;
+    margin: 15px;
+    padding: 15px;
+    border-bottom: solid 0.5px #abaaaa;
+}
+
+.restaurant-info:hover{
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+/* Restaurant image style */
+.restaurant-info img{
+    min-width: 150px;
+    min-height: 150px;
+    max-width: 150px;
+    max-height: 150px;
+    border-radius: 10px;
+    margin-right: 15px;
+}
+
+/* Restaurant Name Styles */
+.name{
+    font-size: 20px;
+    font-weight: bolder;
+}
+
+/* Restaurant Location Styles */
+.location {
+    font-size: 16px;
+}
+
+/* Badge Styles */
+.badge{
+    font-size: 15px;
+    margin: 0 10px 10px 0
+}
+
+/* Pagination Styles */
+.pagination {
+    display: flex;
+    justify-content: center;
+}
+
+.pagination a.active{
+    background-color: #673AB7 !important;
+    color: white;
+    border: none;
+}
+
+.pagination a {
+    color: #673AB7 ;
+}
+
+@media screen and (max-width: 700px) {
+    .heading{
+        font-size: 20px;
+    }
+
+    .name{
+        font-size: 15px;
+    }
+
+    .location {
+        font-size: 13px;
+    }
+
+    .badge{
+        font-size: 10px;
+        margin: 0 5px 5px 0
+    }
+    
+  }

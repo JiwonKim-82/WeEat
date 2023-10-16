@@ -1,0 +1,16 @@
+<div *ngIf="opened">
+  <app-header [sidenav]="leftSidenav"></app-header>
+</div>
+
+<div class="body">
+  <mat-sidenav-container class="sidenav-container">
+      <mat-sidenav #leftSidenav mode="over">
+        <app-side-navbar></app-side-navbar>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <div class="main_content">
+        <router-outlet></router-outlet>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

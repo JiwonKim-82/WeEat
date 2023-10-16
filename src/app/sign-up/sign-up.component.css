@@ -1,0 +1,148 @@
+/* Reset default margin, padding, and box-sizing */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body styles */
+.body {
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    background-image: url("src/assets/images/Login-Image.png");
+}
+
+/* Container styles */
+.container {
+    width: 800px;
+    height: auto;
+    background: #fff;
+    padding: 25px 30px;
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px,
+        rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+
+/* Title styles */
+.title {
+    font-size: 30px;
+}
+
+/* Form styles */
+.grid-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Grid container styles */
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 16px;
+    width: 100%;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
+    padding: 20px;
+    margin: 10px;
+}
+
+/* Grid item styles */
+.grid-item {
+    width: 100%;
+}
+
+/* User details styles */
+.user-details {
+    margin: 20px 0 12px 0;
+}
+
+/* Row styles */
+.row {
+    margin-bottom: 10px;
+}
+
+/* Profile image section styles */
+.profile-img-section {
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
+    padding: 20px;
+    margin: 10px;
+}
+
+/* Preview row styles */
+.preview-row {
+    display: flex;
+    justify-content: center;
+}
+
+/* Image preview styles */
+.img-preview {
+    width: 165px;
+    height: 165px;
+    border-radius: 50%;
+    border: none;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.img-preview img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: none;
+}
+
+/* Image file upload styles */
+.img-file-upload {
+    width: 250px;
+    margin: 0 auto;
+}
+
+.img-file-upload input {
+    width: 100%;
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+}
+
+/* User profile info styles */
+.user-profile-info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    margin: 10px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+/* Username styles */
+.username {
+    font-weight: bold;
+    font-size: 25px;
+    margin: 8px;
+    color: #6A1B9A;
+}
+
+/* Email styles */
+.email {
+    font-size: 15px;
+    margin: 8px;
+    color: #424242;
+}
+
+/* Media query for smaller screens */
+@media (max-width: 700px) {
+    .grid-container {
+        grid-template-columns: 1fr;
+    }
+    .container {
+        width: 400px;
+    }
+    .user-profile-info {
+        flex-direction: column;
+        align-items: center;
+    }
+    .info {
+        text-align: center;
+    }
+}

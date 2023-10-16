@@ -1,0 +1,78 @@
+/* Dimensions and positioning for side navigation */
+mat-nav-list {
+  padding-top: 70px;
+  width: 220px;
+}
+
+/* Styling for form fields */
+.form-field-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+mat-form-field {
+  max-width: 185px;
+  display: flex;
+}
+
+/* Styling for buttons and icons */
+.search-button {
+  width: 35px;
+  height: 35px;
+  margin-right: 10px;
+}
+
+.arrow-icon {
+  position: absolute !important;
+  right: 10px;
+  transition: transform 0.3s ease;
+}
+
+.rotate-arrow {
+  transform: rotate(180deg);
+}
+
+.remove-button:hover {
+  cursor: pointer;
+  color: #764cbe;
+}
+
+/* User display */
+.user-display {
+  width: 170px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  padding: 5px;
+}
+
+.user-display img {
+  height: 55px;
+  width: 55px;
+  border-radius: 50%;
+}
+
+/* Styling for found user info */
+.foundUser-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+}
+
+.section-heading {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+/* Hover effect for user display */
+.user-display:hover {
+  cursor: pointer;
+  background-color: rgb(245, 245, 245);
+}

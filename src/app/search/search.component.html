@@ -1,0 +1,64 @@
+<div class="container">
+    <!-- Search Box -->
+    <div class="search-box">
+        <input type="text" placeholder="City Name" [(ngModel)]="searchText">       
+        <div class="vl"></div>
+        <input type="text" placeholder="Keyword" [(ngModel)]="keyword"> 
+        <button (click)="onSearch()" mat-fab color="primary">
+            <mat-icon>search</mat-icon>
+        </button>
+    </div>
+
+    <!-- Heading -->
+    <div>
+        <div class="heading">Find a place to share your moment</div>
+        <div class="line"></div>
+    </div>
+
+    <!-- Display Error Message and Loading Spinner -->
+    <div *ngIf="isLoading; else content">
+        <div class="loading-spinner">
+            <mat-spinner diameter="70"></mat-spinner>
+        </div>
+    </div>
+
+    <ng-template #content>
+        <div *ngIf="!restaurants || restaurants.length === 0">
+            <mat-error style="margin-top: 20px;">{{error}}</mat-error>
+        </div>
+
+
+        <div *ngIf="restaurants && restaurants.length > 0">
+            <!-- Restaurant Cards -->
+            <div *ngFor="let restaurant of restaurants; let i = index" class="restaurant-info" matRipple (click)="openDialog(restaurant)">
+                <img [src]="restaurant.imageUrl" alt="">
+
+                <div class="restaurant">
+                    <span class="badge rounded-pill text-bg-secondary">{{restaurant.category}}</span>
+                    <span class="badge rounded-pill text-bg-success">{{restaurant.price}}</span>
+                    <div class="name">{{restaurant.name}}</div>
+                    <div class="location">{{restaurant.location}}</div>
+                </div>  
+            </div>
+            
+            <!-- Pagination -->
+            <ul class="pagination pagination-circle">
+                <li class="page-item" (click)="firstPage()" [ngClass]="{'disabled': currentPage === 0}">
+                    <a class="page-link"> << </a>
+                </li>
+                <li class="page-item" (click)="previousPage()" [ngClass]="{'disabled': currentPage === 0}">
+                    <a class="page-link"> < </a>
+                </li>
+                <li class="page-item" *ngFor="let page of pageArray">
+                    <a class="page-link" [class.active]="currentPage === page">{{ page }}</a>
+                </li>
+                <li class="page-item" (click)="nextPage()" [ngClass]="{'disabled': currentPage === totalPages}">
+                    <a class="page-link"> > </a>
+                </li>
+                <li class="page-item" (click)="lastPage()" [ngClass]="{'disabled': currentPage === 0}">
+                    <a class="page-link"> >> </a>
+                </li>
+            </ul>
+        </div>
+    </ng-template>
+</div>

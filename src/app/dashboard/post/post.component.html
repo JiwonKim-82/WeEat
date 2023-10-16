@@ -1,0 +1,51 @@
+<div class="post-detail">
+  
+  <!-- Post Image Section -->
+  <div class="post-image">
+    <!-- Display the post image -->
+    <img [src]="selectedPost.fileUrl">
+    <!-- Show a favorite button if the post is a favorite -->
+    <button
+      mat-icon-button
+      color="warn"
+      aria-label="Example icon button with a heart icon"
+      *ngIf="selectedPost.isFavorite">
+      <mat-icon>favorite</mat-icon>
+    </button>
+  </div>
+
+  <!-- Post Information Section -->
+  <div class="post-info">
+
+    <!-- Display the post name -->
+    <div class="post-name">{{selectedPost.restaurant.name}}</div>
+
+    <!-- Display the post location -->
+    <div class="post-location">{{selectedPost.restaurant.location}}</div>
+
+    <!-- Display the post category and price -->
+    <div class="post-category-price">{{selectedPost.restaurant.category}} | {{selectedPost.restaurant.price}}</div>
+
+    <!-- Description Box -->
+    <div class="description-box">
+      <div class="description">
+        <div class="post-description">
+          {{selectedPost.description}}
+        </div>      
+      </div>
+    </div>
+
+    <!-- Menu Button for Edit and Delete -->
+    <button class="menu-button" mat-icon-button [matMenuTriggerFor]="menu" *ngIf="isCurrentUserProfile">
+      <mat-icon>menu</mat-icon>
+      <mat-menu #menu="matMenu">
+        
+        <!-- Edit Button -->
+        <button mat-menu-item (click)="onEdit()">Edit</button>
+        
+        <!-- Delete Button -->
+        <button mat-menu-item (click)="onDelete()" class="delete-button">Delete</button>
+      </mat-menu>
+    </button> 
+  </div>
+</div>

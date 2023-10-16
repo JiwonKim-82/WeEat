@@ -1,0 +1,87 @@
+<div class="body">
+  <div class="container">
+    <div class="title">Registration</div>
+    <mat-horizontal-stepper linear="true" #stepper>
+      
+      <!-- Step 1 -->
+      <mat-step [stepControl]="rgForm" [completed]="rgForm.valid" class="step1">
+        <ng-template matStepLabel>Step 1: User Details</ng-template>
+        <form [formGroup]="rgForm" (ngSubmit)="handleSignUp()" class="grid-form">
+          <div class="grid-container">
+            <mat-form-field class="grid-item">
+              <mat-label>Enter your email</mat-label>
+              <input matInput type="email" id="email" placeholder="pat@example.com" formControlName="email">
+              <mat-error *ngIf="rgForm.get('email').invalid && rgForm.get('email').touched">Invalid Email</mat-error>
+            </mat-form-field>
+            <mat-form-field class="grid-item">
+              <mat-label>Enter your username</mat-label>
+              <input matInput id="username" placeholder="minimum length 8" formControlName="userName">
+              <mat-error *ngIf="rgForm.get('userName').invalid && rgForm.get('userName').touched">Username has to be minimum 8 characters</mat-error>
+            </mat-form-field>
+            <mat-form-field class="grid-item">
+              <mat-label>Enter your password</mat-label>
+              <input matInput type="password" id="password" placeholder="Enter Your Password" formControlName="password">
+              <mat-error *ngIf="rgForm.get('password').invalid && rgForm.get('password').touched">Password has to be minimum 8 characters</mat-error>
+            </mat-form-field>
+            <mat-form-field class="grid-item">
+              <mat-label>Confirm Password</mat-label>
+              <input matInput type="password" id="passwordCheck" placeholder="Confirm Your Password" formControlName="passwordCheck">
+            </mat-form-field>
+          </div>
+          <p style="text-align: center;" *ngIf="rgForm.hasError('PasswordNoMatch') && rgForm.get('passwordCheck').touched">Passwords do not match.</p>
+        </form>
+        <button type="button" [disabled]="!rgForm.valid" mat-button matStepperNext>Next</button>
+      </mat-step>
+
+      <!-- Step 2 -->
+      <mat-step>
+        <ng-template matStepLabel>Step 2: Profile Image</ng-template>
+        <div class="profile-img-section">
+          <div class="row preview-row">
+            <div class="col-xs-12 img-preview">
+              <img [src]="imagePreview ? imagePreview : 'assets/images/default-profile-image.webp'" alt="">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12 img-file-upload">
+              <label>
+                <input
+                  type="file"
+                  class="text-nowrap text-truncate"
+                  (change)="selectFile($event)"
+                />
+              </label>
+            </div>
+          </div>
+        </div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button *ngIf="imagePreview" mat-button matStepperNext>Next</button>
+        <button *ngIf="!imagePreview" mat-button matStepperNext matTooltip="Setting default image" matTooltipPosition="right">Skip</button>
+      </mat-step>
+
+      <!-- Step 3 -->
+      <mat-step>
+        <ng-template matStepLabel>Step 3: Confirmation</ng-template>
+        <div class="user-profile-info">
+          <div class="img-preview" style="margin-right: 10px;">
+            <img [src]="imagePreview ? imagePreview : 'assets/images/default-profile-image.webp'" alt="">
+          </div>
+          <div class="info">
+            <div class="username">
+              {{ rgForm.get('userName').value }}
+            </div>
+            <div class="email">
+              {{ rgForm.get('email').value }}
+            </div>
+          </div>
+        </div>
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button button="submit" (click)="handleSignUp()" [disabled]="!rgForm.valid">Signup</button>
+        </div>
+      </mat-step>
+    </mat-horizontal-stepper>
+  </div>
+</div>
+
+

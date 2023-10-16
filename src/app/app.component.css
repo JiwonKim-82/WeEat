@@ -1,0 +1,23 @@
+/* Custom font */
+@font-face {
+  font-family: 'Outfit';
+  src: url('../assets/fonts/Outfit-VariableFont_wght.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Apply the custom font to all elements */
+* {
+  font-family: 'Outfit', sans-serif;
+}
+
+/* Style for the sidenav container */
+.sidenav-container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+

@@ -1,0 +1,36 @@
+<div class="body">
+  <div class="slogan">
+    <div>Indulge in Taste, </div>
+    <div>Share in Joy</div>
+  </div>
+  <form class="container" *ngIf="isLoggedIn" [formGroup]="loginForm" (submit)="onLogin()">
+      <div>
+          <div class="row">
+            <!-- Email input field -->
+            <mat-form-field>
+              <mat-label>Enter your email</mat-label>
+              <input matInput placeholder="pat@example.com" formControlName="email">
+              <!-- Display error message if email is invalid -->
+              <mat-error *ngIf="loginForm.get('email').invalid">{{getEmailErrorMessage()}}</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="row">
+             <!-- Password input field -->
+            <mat-form-field>
+              <mat-label>Enter your password</mat-label>
+              <input matInput type="password" formControlName="password">
+               <!-- Display error message if password is invalid -->         
+              <mat-error *ngIf="loginForm.get('password').invalid">{{getPasswordErrorMessage()}}</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="row">
+            <div class="buttons">
+              <!-- Login button -->
+              <button mat-raised-button color="primary" type="submit">Login</button>
+              <!-- Signup button -->
+              <button type="button" (click)="onSignUp()" mat-raised-button>Signup</button>
+            </div>
+          </div>
+      </div>
+  </form>
+</div>

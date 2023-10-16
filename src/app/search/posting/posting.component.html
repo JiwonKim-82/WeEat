@@ -1,0 +1,90 @@
+<div class="container">
+    <form [formGroup]="postingForm" (ngSubmit)="upload()">
+        <!-- Restaurant Information -->
+        <div>
+            <div class="name"> 
+                {{selectedRestaurant.name}}
+            </div>
+            <div class="category-price"> 
+                {{selectedRestaurant.category}} | {{selectedRestaurant.price}}
+            </div>
+            <div class="location"> 
+                {{selectedRestaurant.location}}
+            </div>
+            <div *ngIf="!selectedFiles && !editMode" class="centered-section">
+                <img src="{{selectedRestaurant.imageUrl}}" class="default-img">
+            </div>
+            <!-- Display edited image if in edit mode -->
+            <div *ngIf="editMode" class="centered-section">
+                <img [src]="editModeImage" class="default-img">
+            </div>
+        </div>
+
+        <!-- Image Cropping and Preview -->
+        <div *ngIf="selectedFiles && !editMode" class="centered-section">
+            <div class="image-cropper">
+                <image-cropper
+                    [imageChangedEvent]="imageChangedEvent"
+                    [maintainAspectRatio]="true"
+                    [aspectRatio]="1 / 1"
+                    format="png"
+                    (imageCropped)="imageCropped($event)"
+                ></image-cropper>
+
+            </div>
+            <!-- Dropdown to preview cropped image -->
+            <div class="dropup">
+                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <div class="material-icons">preview</div>
+                </button>
+                <img class="dropdown-menu" [src]="croppedImageUrl" alt="">
+            </div>
+        </div>
+
+        <!-- Upload Photo Button -->
+        <div *ngIf="!editMode" class="centered-section">
+            <mat-card-actions>
+                <button mat-button color="warn" type="button">
+                    <label for="photo-upload">
+                        <input type="file"
+                            #photoSelector
+                            id="photo-upload"
+                            (change)="fileChangeEvent($event)" />
+                    </label>
+                </button>
+            </mat-card-actions>
+        </div>
+
+        <!-- Description Text Area -->
+        <div class="centered-section">
+            <div class="description">
+                <mat-form-field class="full-width">
+                    <mat-label>How was your time at {{selectedRestaurant.name}}?</mat-label>
+                    <textarea
+                        #description
+                        type="text"
+                        id="description"
+                        formControlName="description"
+                        matInput
+                        rows="6"></textarea>
+                </mat-form-field>
+            </div>
+        </div>
+
+        <!-- Add to Favorite Toggle -->
+        <div class="centered-section">
+            <mat-slide-toggle #favorite formControlName="isFavorite">Do you want to add {{selectedRestaurant.name}} to your favorite list?</mat-slide-toggle>
+        </div>
+
+        <!-- Submit and Cancel Buttons -->
+        <div class="buttons" *ngIf="!showProgress">
+            <button class="m-1" mat-raised-button color="primary" type="submit" [disabled]="!postingForm.valid">Submit</button>
+            <button type="button" class="m-1" mat-raised-button color="warn" (click)="onCancel()">Cancel</button>
+        </div>
+
+        <!-- Upload Progress Bar -->
+        <div *ngIf="showProgress">
+            <mat-progress-bar mode="determinate" [value]="percentage"></mat-progress-bar>
+        </div>
+    </form>
+</div>
