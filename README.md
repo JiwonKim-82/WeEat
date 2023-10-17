@@ -36,23 +36,23 @@ A Food Social Media Web Application “We-Eat”, using Angular and Firebase, en
 4. Create an "environments" file under the "src" directory.
 
 
-5. In each "environment.ts" file, enter your Firebase keys and Yelp authorization  key as shown in the example below:
+5. In each "environment.ts" file, enter your Firebase keys and Yelp authorization  key as shown in the example below :
 
-   ```js
+   ```sh
    export const environment = {
-  production: false,
-   firebase: {
-   projectId: '',
-   appId: '',
-   databaseURL: '',
-   storageBucket: '',
-   locationId: '',
-   apiKey: '',
-   authDomain: '',
-   messagingSenderId: '',
-   measurementId: '',
-   },
-   yelpApi: 'YOUR-YELP-API-AUTH-KEY'
+      production: false,
+      firebase: {
+         projectId: 'YOUR-PROJECT-ID',
+         appId: 'YOUR-APP-ID',
+         databaseURL: 'YOUR-DATABASE-URL',
+         storageBucket: 'YOUR-STORAGE-BUCKET',
+         locationId: 'YOUR-LOCATION-ID',
+         apiKey: 'YOUR-API-KEY',
+         authDomain: 'YOUR-AUTH-DOMAIN',
+         messagingSenderId: 'YOUR-MESSAGING-SENDER-ID',
+         measurementId: 'YOUR-MEASUREMENT-ID',
+      },
+      yelpApi: 'YOUR-YELP-API-AUTH-KEY'
    }
    ```
 
