@@ -13,7 +13,7 @@ export class SearchService {
   private apiUrl = '/api/v3/businesses/search';
   private selectedRestaurantSubject = new BehaviorSubject<Restaurant | null>(null)
   restaurantsSubject = new BehaviorSubject<Restaurant[]>([]);
-  private authKey = environment.yelpApi
+  private YelpAuthKey = environment.yelpApi
 
   constructor(private http:HttpClient) {}
 
@@ -27,7 +27,7 @@ export class SearchService {
 
   getRestaurants(city: string, keyword:string, newOffset: number):Observable<{ restaurants: Restaurant[], total: number }>{
     const headers = new HttpHeaders({
-          'Authorization': this.authKey,
+          'Authorization': this.YelpAuthKey,
           'accept': 'application/json'
         });
         return this.http.get(this.apiUrl + `?location=${city}&term=${keyword}&sort_by=best_match&limit=5&offset=${newOffset}`, {headers: headers})
