@@ -20,32 +20,40 @@ A Food Social Media Web Application “We-Eat”, using Angular and Firebase, en
 
 1. Get a free API Key at [https://docs.developer.yelp.com/](https://docs.developer.yelp.com/)
 
-2. Clone the repo
+
+2. Clone the repository using the following command:
+
    ```sh
    git clone https://github.com/JiwonKim-82/WeEat
    ```
 
-3. Install NPM packages
+3. Install the necessary NPM packages:
+
    ```sh
    npm install
    ```
    
-4. Make environments file under src and enter your Firebase Keys
+4. Create an "environments" file under the "src" directory.
+
+
+5. In each "environment.ts" file, enter your Firebase keys and Yelp authorization  key as shown in the example below:
+
    ```js
    export const environment = {
-      production: true,
-      firebase: {
-      projectId: '',
-      appId: '',
-      databaseURL: '',
-      storageBucket: '',
-      locationId: '',
-      apiKey: '',
-      authDomain: '',
-      messagingSenderId: '',
-      measurementId: '',
-      }
-    }
+  production: false,
+   firebase: {
+   projectId: '',
+   appId: '',
+   databaseURL: '',
+   storageBucket: '',
+   locationId: '',
+   apiKey: '',
+   authDomain: '',
+   messagingSenderId: '',
+   measurementId: '',
+   },
+   yelpApi: 'YOUR-YELP-API-AUTH-KEY'
+   }
    ```
 
 ## Development server
