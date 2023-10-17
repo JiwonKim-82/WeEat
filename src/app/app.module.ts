@@ -27,6 +27,9 @@ import { PostComponent } from './dashboard/post/post.component';
 import { EditProfileComponent } from './dashboard/edit-profile/edit-profile.component';
 import { SideNavBarComponent } from './side-navbar/side-navbar';
 import { ImageCropperModule } from 'ngx-image-cropper';
+import { ConfirmDialogComponent } from './shared/confirm-dialog/confirm-dialog.component';
+import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
+
 
 
 
@@ -42,7 +45,8 @@ import { ImageCropperModule } from 'ngx-image-cropper';
     HeaderComponent,
     PostComponent,
     EditProfileComponent,
-    SideNavBarComponent
+    SideNavBarComponent,
+    ConfirmDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -61,6 +65,7 @@ import { ImageCropperModule } from 'ngx-image-cropper';
     ImageCropperModule
 ],
   providers: [
+    {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 2000}}
   ],
   bootstrap: [AppComponent]
 })

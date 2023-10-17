@@ -12,6 +12,7 @@ import { User } from 'src/app/model/user.model';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { takeUntil } from 'rxjs/operators';
+import { SnackbarService } from 'src/app/service/snackbar.service';
 
 @Component({
   selector: 'app-posting',
@@ -41,6 +42,7 @@ export class PostingComponent implements OnInit, OnDestroy{
     private searchService: SearchService,
     private authService: AuthService,
     private FirebaseService: FirebaseService,
+    private snackbarService: SnackbarService,
     private dialogRef: MatDialog,
     private sanitizer: DomSanitizer,
     @Optional() @Inject(MAT_DIALOG_DATA) public data?: { post: Post, editMode: boolean } // Optional injection
@@ -118,19 +120,19 @@ export class PostingComponent implements OnInit, OnDestroy{
             if (percentage === 100) {
               setTimeout(() => {
                 this.dialogRef.closeAll();
-                alert('Post updated successfully!');
+                this.snackbarService.show('Post updated successfully!', 'success');
               }, 1500);
             }
         },
         error => {
-         alert("Something went wrong!")
+         this.snackbarService.show('Something went wrong!.', 'error');
         }
       );
     }
     if (!this.editMode) {
       if (!this.selectedFiles) {
         // Handle the case where no file is selected by showing an error message to the user
-          alert('Please select a file to upload.');
+          this.snackbarService.show('Please select a file to upload.', 'warning');
           return; // Exit early if no file is selected
         }
       this.showProgress = true;
@@ -161,13 +163,12 @@ export class PostingComponent implements OnInit, OnDestroy{
               alertShown = true; // Set the flag to true to prevent multiple alerts
               setTimeout(() => {
                 this.dialogRef.closeAll();
-                alert('Post uploaded successfully!');
+                this.snackbarService.show('Post uploaded successfully!', 'success')
               }, 1500);
             }
           },
           error => {
-            console.log(error);
-            alert('Something went wrong.');
+            this.snackbarService.show('Something went wrong.','error')
           }
         );
       } 

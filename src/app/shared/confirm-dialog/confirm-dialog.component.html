@@ -1,0 +1,14 @@
+
+    <div mat-dialog-title>
+        {{title}}
+    </div>
+      
+    <div mat-dialog-content>
+        {{message}}
+    </div>
+      
+    <div mat-dialog-actions [align]="'end'">
+        <button mat-raised-button (click)="onDismiss()">Cancel</button>
+        <button mat-raised-button color="primary" (click)="onConfirm()">Confirm</button>
+    </div>
+

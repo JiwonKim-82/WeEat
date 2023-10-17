@@ -5,6 +5,7 @@ import { FileUpload } from 'src/app/model/file-upload.model';
 import { User} from 'src/app/model/user.model';
 import { FirebaseService } from 'src/app/service/firebase.service';
 import { forkJoin } from 'rxjs';
+import { SnackbarService } from 'src/app/service/snackbar.service';
 
 @Component({
   selector: 'app-edit-profile',
@@ -23,7 +24,8 @@ export class EditProfileComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) private data: { uid: string },
     private builder: FormBuilder,
     private firebaseService: FirebaseService,
-    public dialogRef: MatDialogRef<EditProfileComponent>
+    private snackbarService: SnackbarService,
+    public dialogRef: MatDialogRef<EditProfileComponent>,
   ) { }
 
   ngOnInit(): void {
@@ -93,7 +95,7 @@ export class EditProfileComponent implements OnInit {
   
     if (updateObservables.length === 0) {
       // No updates to perform
-      alert('No changes were made.');
+      this.snackbarService.show('No changes were made.', 'warning');
       this.dialogRef.close();
       return;
     }
@@ -102,11 +104,11 @@ export class EditProfileComponent implements OnInit {
     forkJoin(updateObservables).subscribe(
       () => {
         // All updates completed successfully, display an alert
-        alert('Changes submitted successfully!');
+        this.snackbarService.show('Changes submitted successfully!', 'success');
         this.dialogRef.close();
       },
       (error) => {
-        alert('Error updating profile');
+        this.snackbarService.show('Error updating profile.', 'error')
       }
     );
   }

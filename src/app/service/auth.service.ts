@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { User } from '../model/user.model';
 import { FirebaseService } from './firebase.service';
+import { SnackbarService } from './snackbar.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,8 @@ export class AuthService {
   constructor(
     private fireAuth: AngularFireAuth, 
     private router: Router,
-    private firebaseService: FirebaseService
+    private firebaseService: FirebaseService,
+    private snackbarService: SnackbarService
   ) {}
 
   _isLoggedIn = new BehaviorSubject<Boolean>(false);  // BehaviorSubject to track whether the user is logged in or not
@@ -34,7 +36,7 @@ export class AuthService {
       .then((userCredential) => {
 
         // Successful login
-        alert('Log in Success!');
+        this.snackbarService.show('Log in Success!', 'success')
 
         // Retrieve user data from Firebase Firestore and navigate
         this.loadUserData(userCredential.user.uid);
@@ -44,13 +46,13 @@ export class AuthService {
         // Handle different authentication error cases
         switch (errorCode) {
           case 'auth/user-not-found':
-            alert(this.USER_NOT_FOUND);
+            this.snackbarService.show(this.USER_NOT_FOUND, 'error');
             break;
           case 'auth/wrong-password':
-            alert(this.WRONG_PASSWORD);
+            this.snackbarService.show(this.WRONG_PASSWORD, 'error')
             break;
           default:
-            alert(this.WRONG_CREDENTIALS);
+            this.snackbarService.show(this.WRONG_CREDENTIALS, 'error')
           }
         // Navigate to the login page on error
         this.router.navigate(['/login']);
@@ -73,7 +75,7 @@ export class AuthService {
       // Navigate to the user's dashboard with parameter of uid
       this.router.navigate(['/dashboard', uid]);
     }, (error) => {
-      console.error('Error loading user data:', error);
+      this.snackbarService.show('Something went wrong', 'error');
     });
   }
     
@@ -95,34 +97,24 @@ export class AuthService {
       const newUser = new User(uid, userName, userName.toLowerCase().trim(), email, password);
 
       // Display a success message to the user
-      alert('Registration Successful');
+      this.snackbarService.show('Registration Successful', 'success');
 
       // Return the created User object
       return newUser;
     } catch (error) {
       if (error.code === 'auth/email-already-in-use') {
-        alert(this.EMAIL_EXISTS);
+        this.snackbarService.show(this.EMAIL_EXISTS, 'error');
+
       } else if (error.code === 'auth/network-request-failed') {
-        alert(this.REQUEST_FAILED);
+        this.snackbarService.show(this.REQUEST_FAILED, 'error');
       } else {
-        alert('An error occurred during registration. Please try again later.');
+        this.snackbarService.show('An error occurred during registration. Please try again later.', 'error');
       }
 
       // Return null or an appropriate value when an error occurs
       return null;
     }
   }
-  
-  // async getUserName(): Promise<any> {
-  //   //Extract Username from userCredential returned
-  //   const user = await this.fireAuth.currentUser;
-  //   if (user && user.displayName) {
-  //     this._userName.next(user.displayName);
-  //     return user.displayName;
-  //   } else {
-  //     return '';
-  //   }
-  // }
 
   autoLogin() {
     //Get stored UID from local storage
@@ -143,7 +135,7 @@ export class AuthService {
       this._currentUser.next(null);
       this._isLoggedIn.next(false)
     }, err => {
-      alert('Something went wrong');
+      this.snackbarService.show('Something went wrong', 'error');
     }
     )
   }

@@ -6,6 +6,7 @@ import { catchError, finalize, map, take } from 'rxjs/operators';
 import { FileUpload } from '../model/file-upload.model';
 import { Post } from '../model/posting.model';
 import { User} from '../model/user.model';
+import { SnackbarService } from './snackbar.service';
 
 
 @Injectable({
@@ -15,7 +16,8 @@ export class FirebaseService{
 
   constructor(
     private db: AngularFireDatabase, 
-    private storage: AngularFireStorage) {
+    private storage: AngularFireStorage,
+    private snackbarService: SnackbarService) {
    }
   
   pushFileToStorage(fileUpload: FileUpload, post:Post, uid:string): Observable<number | undefined> {
@@ -199,12 +201,12 @@ export class FirebaseService{
 
         // Update the user's friends list in the database
         loggedInUserFriendsRef.set(friendsList).then(() => {
-          alert('Friend added successfully');
+          this.snackbarService.show('Friend added successfully', 'success');
         }).catch((error) => {
-          alert('There was an error adding a friend. Please try again.');
+          this.snackbarService.show('There was an error adding a friend. Please try again.', 'error')
         });
       } else {
-        alert('Friend is already in the list.');
+        this.snackbarService.show('Friend is already in the list.', 'warning');
       }
     });
   }

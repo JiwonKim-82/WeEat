@@ -18,6 +18,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+
 
 @NgModule({
   exports: [
@@ -39,7 +41,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatExpansionModule,
     MatProgressSpinnerModule,
     MatProgressBarModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatSnackBarModule
   ]
 })
 export class MaterialModule { }

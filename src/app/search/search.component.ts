@@ -4,6 +4,7 @@ import { Restaurant } from '../model/restaurant.model';
 import { MatDialog } from '@angular/material/dialog';
 import { PostingComponent } from './posting/posting.component';
 import { SearchService } from '../service/search.service';
+import { SnackbarService } from '../service/snackbar.service';
 
 @Component({
   selector: 'app-search',
@@ -25,6 +26,7 @@ export class SearchComponent implements OnInit, OnDestroy{
 
   constructor(
     private searchService: SearchService,
+    private snackbarService: SnackbarService,
     private dialogRef: MatDialog){}
 
  
@@ -81,7 +83,7 @@ export class SearchComponent implements OnInit, OnDestroy{
         this.restaurants = res.restaurants;
       },
       (err) => {
-        alert('Something went wrong')
+        this.snackbarService.show('Something went wrong', 'error');
       }
     ) 
   }

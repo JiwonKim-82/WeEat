@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
 import { AuthService } from '../service/auth.service';
 import { Observable, map } from 'rxjs';
+import { SnackbarService } from '../service/snackbar.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +10,7 @@ import { Observable, map } from 'rxjs';
 export class AuthGuard implements CanActivate {
   constructor(
     private authService: AuthService, 
+    private snackbarService: SnackbarService,
     private router: Router) {}
 
   canActivate(
@@ -22,7 +24,7 @@ export class AuthGuard implements CanActivate {
         } else {
           // User is not authenticated, navigate to login page
           const loginUrl = this.router.createUrlTree(['/login']);
-          alert('You must log in first!'); // Display an alert message
+          this.snackbarService.show('You must log in first!', 'warning')
           return loginUrl;
         }
       })

@@ -28,7 +28,7 @@
               <input matInput type="password" id="passwordCheck" placeholder="Confirm Your Password" formControlName="passwordCheck">
             </mat-form-field>
           </div>
-          <p style="text-align: center;" *ngIf="rgForm.hasError('PasswordNoMatch') && rgForm.get('passwordCheck').touched">Passwords do not match.</p>
+          <mat-error style="font-size: 15px;" *ngIf="rgForm.hasError('PasswordNoMatch') && rgForm.get('passwordCheck').touched">Passwords do not match.</mat-error>
         </form>
         <button type="button" [disabled]="!rgForm.valid" mat-button matStepperNext>Next</button>
       </mat-step>
@@ -77,7 +77,7 @@
         </div>
         <div>
           <button mat-button matStepperPrevious>Back</button>
-          <button mat-button button="submit" (click)="handleSignUp()" [disabled]="!rgForm.valid">Signup</button>
+          <button mat-button button="submit" (click)="handleSignUp()">Signup</button>
         </div>
       </mat-step>
     </mat-horizontal-stepper>

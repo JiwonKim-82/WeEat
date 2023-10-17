@@ -7,6 +7,9 @@ import { AuthService } from 'src/app/service/auth.service';
 import { MatExpansionPanel } from '@angular/material/expansion';
 import { FirebaseService } from '../service/firebase.service';
 import { User } from '../model/user.model';
+import { MatDialog } from '@angular/material/dialog';
+import { SnackbarService } from '../service/snackbar.service';
+import { ConfirmDialogComponent, ConfirmDialogModel } from '../shared/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-side-navbar',
@@ -18,7 +21,9 @@ export class SideNavBarComponent implements OnInit, OnDestroy{
   constructor(
     private auth: AuthService,
     private firebaseService: FirebaseService,
-    private router: Router) { 
+    private snackbarService: SnackbarService,
+    private router: Router,
+    private dialog: MatDialog) { 
     }
 
   // ViewChild references to expansion panels
@@ -70,20 +75,27 @@ export class SideNavBarComponent implements OnInit, OnDestroy{
     }
   }
 
-  // Remove a friend
   removeFriend(friendUid: string): void {
-    const confirmed = window.confirm('Are you sure you want to remove this friend?');
-    if (confirmed) {
-      this.firebaseService.deleteFriend(this.userUid, friendUid)
+    const message = `Are you sure you want to delete this friend?`;
+    const dialogData = new ConfirmDialogModel("Delete the friend", message);
+
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+          maxWidth: "400px",
+          data: dialogData
+        });
+    dialogRef.afterClosed().subscribe(dialogResult => {
+      if (dialogResult) {
+        this.firebaseService.deleteFriend(this.userUid, friendUid)
         .then(() => {
-          alert('Friend removed successfully');
+          this.snackbarService.show('Friend removed successfully', 'success')
         })
         .catch((error) => {
-          alert('There was an error removing friend. Try again');
+          this.snackbarService.show('There was an error removing friend. Try again', 'error')
         });
-    } else {
-      alert('Friend removal canceled.');
-    }
+      } else {
+      this.snackbarService.show('Friend removal canceled.', 'warning')
+      }
+    })
   }
 
   // Search for a user by username

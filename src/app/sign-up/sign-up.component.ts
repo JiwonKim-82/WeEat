@@ -91,7 +91,7 @@ export class SignUpComponent implements OnInit{
         await this.firebaseService.uploadProfileImage(user, fileUpload);
       }
       this.router.navigate(['/login']);
-    }
+    } 
   }
 
 }

@@ -5,6 +5,9 @@ import { User } from 'src/app/model/user.model';
 import { PostingComponent } from 'src/app/search/posting/posting.component';
 import { AuthService } from 'src/app/service/auth.service';
 import { FirebaseService } from 'src/app/service/firebase.service';
+import { SnackbarService } from 'src/app/service/snackbar.service';
+import { ConfirmDialogComponent, ConfirmDialogModel } from 'src/app/shared/confirm-dialog/confirm-dialog.component';
+
 
 @Component({
   selector: 'app-post',
@@ -21,6 +24,7 @@ export class PostComponent {
     @Inject(MAT_DIALOG_DATA) private data: { post: Post, isCurrentUserProfile: boolean },
     private firebaseService: FirebaseService,
     private authService: AuthService,
+    private snackbarService: SnackbarService,
     private dialogRef: MatDialogRef<PostComponent>,
     private dialogPosting: MatDialog
   ) {
@@ -32,25 +36,34 @@ export class PostComponent {
   ngOnInit(): void {
     // Subscribe to user changes to get the current user
     this.authService._currentUser.subscribe((user)=>{this.currentUser$ = user})
-    console.log(this.isCurrentUserProfile)
   }
 
   onDelete(): void {
     // Confirm deletion with a dialog/modal before proceeding
-    const confirmDelete = confirm('Are you sure you want to delete this post?');
-    if (confirmDelete) {
-      this.firebaseService.deleteFile(this.currentUser$.uid, this.selectedPost.timestamp).then(
-        () => {
-          // Deletion successful
-          alert('Post deleted successfully');
-          this.dialogRef.close();
-        },
-        (error) => {
-          // Handle the error
-          alert('Error deleting post');
-        }
-      );
-    }
+    const message = `Are you sure you want to delete this post?`;
+
+    const dialogData = new ConfirmDialogModel("Delete this post", message);
+
+    const dialogRef = this.dialogPosting.open(ConfirmDialogComponent, {
+      maxWidth: "400px",
+      data: dialogData
+    });
+
+    dialogRef.afterClosed().subscribe(dialogResult => {
+      if (dialogResult) {
+        this.firebaseService.deleteFile(this.currentUser$.uid, this.selectedPost.timestamp).then(
+                () => {
+                  // Deletion successful
+                  this.snackbarService.show('Post deleted successfully.', 'success');
+                  this.dialogRef.close();
+                },
+                (error) => {
+                  // Handle the error
+                  this.snackbarService.show('Error deleting post.', 'error');          
+                }
+              );
+            }
+      })
   }
 
   onEdit(): void {
