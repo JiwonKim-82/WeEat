@@ -30,30 +30,22 @@ A Food Social Media Web Application “We-Eat”, using Angular and Firebase, en
    npm install
    ```
    
-4. Enter your Firebase Keys in `environment.ts`
+4. Make environments file under src and enter your Firebase Keys
    ```js
    export const environment = {
-    production: true,
-    firebase: {
-    projectId: '',
-    appId: '',
-    databaseURL: '',
-    storageBucket: '',
-    locationId: '',
-    apiKey: '',
-    authDomain: '',
-    messagingSenderId: '',
-    measurementId: '',
+      production: true,
+      firebase: {
+      projectId: '',
+      appId: '',
+      databaseURL: '',
+      storageBucket: '',
+      locationId: '',
+      apiKey: '',
+      authDomain: '',
+      messagingSenderId: '',
+      measurementId: '',
+      }
     }
-    }
-   ```
-
-5. Enter your api authorization key from Yelp in `service/search.service.ts`
-   ```sh
-   const headers = new HttpHeaders({
-          'Authorization': 'YOUR-AUTH-KEY',
-          'accept': 'application/json'
-        });
    ```
 
 ## Development server
