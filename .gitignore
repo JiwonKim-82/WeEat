@@ -8,4 +8,4 @@ node_modules/
 /dist
 
 # Ignore the environments directory and its contents
-
+/src/environments/
