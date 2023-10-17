@@ -1,7 +1,7 @@
 export const environment = {
     production: false,
     firebase: {
-      projectId: 'asdfafaafeafwfe',
+      projectId: '',
       appId: '',
       databaseURL: '',
       storageBucket: '',

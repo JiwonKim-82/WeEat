@@ -7,5 +7,5 @@ node_modules/
 # Ignore the build directory
 /dist
 
-# The file containing environment variables 
-.env
+# Ignore the environments directory and its contents
+
