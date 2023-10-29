@@ -28,15 +28,15 @@
                     <mat-icon>apps</mat-icon>
                      POSTS
                 </ng-template>
-                <div *ngIf="loadingPosts" class="loading-spinner">
+                <div *ngIf="loadingPosts$" class="loading-spinner">
                     <mat-spinner diameter="48"></mat-spinner>
                 </div>
-                <div *ngIf="!loadingPosts && posts && posts.length === 0" class="no-post">
+                <div *ngIf="!loadingPosts$ && posts$ && posts$.length === 0" class="no-post">
                     <img src="assets/images/restaurant.png" alt="">
                     <div>No Post Yet</div>
                 </div>
-                <div class="posting-container" *ngIf="!loadingPosts && posts">
-                    <div class="posting" *ngFor="let post of posts">
+                <div class="posting-container" *ngIf="!loadingPosts$ && posts$">
+                    <div class="posting" *ngFor="let post of posts$">
                         <div class="posting-item" (click)="openPostDialog(post, isCurrentUserProfile)">
                             <img class="img-fluid" [src]="post.fileUrl" alt="">
                             <div class="posting-item-info">
@@ -58,15 +58,15 @@
                     <mat-icon>favorite</mat-icon>
                      FAVORITES
                 </ng-template>
-                <div *ngIf="loadingPosts" class="loading-spinner">
+                <div *ngIf="loadingPosts$" class="loading-spinner">
                     <mat-spinner diameter="48"></mat-spinner>
                 </div>
-                <div *ngIf="!loadingPosts && favoritePosts && favoritePosts.length === 0" class="no-post">
+                <div *ngIf="!loadingPosts$ && favoritePosts$ && favoritePosts$.length === 0" class="no-post">
                     <img src="assets/images/restaurant.png" alt="">
                     <div>No Post Yet</div>
                 </div>
-                <div class="posting-container" *ngIf="!loadingPosts && favoritePosts">
-                    <div class="posting" *ngFor="let post of favoritePosts">
+                <div class="posting-container" *ngIf="!loadingPosts$ && favoritePosts$">
+                    <div class="posting" *ngFor="let post of favoritePosts$">
                         <div class="posting-item" (click)="openPostDialog(post, isCurrentUserProfile)">
                             <img class="img-fluid" [src]="post.fileUrl" alt="">
                             <div class="posting-item-info">

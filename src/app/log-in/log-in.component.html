@@ -3,7 +3,10 @@
     <div>Indulge in Taste, </div>
     <div>Share in Joy</div>
   </div>
-  <form class="container" *ngIf="isLoggedIn" [formGroup]="loginForm" (submit)="onLogin()">
+  <form class="container" 
+  *ngIf="isLoggedIn$" 
+  [formGroup]="loginForm" 
+  (submit)="onLogin()">
       <div>
           <div class="row">
             <!-- Email input field -->

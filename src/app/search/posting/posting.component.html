@@ -3,16 +3,16 @@
         <!-- Restaurant Information -->
         <div>
             <div class="name"> 
-                {{selectedRestaurant.name}}
+                {{selectedRestaurant$.name}}
             </div>
             <div class="category-price"> 
-                {{selectedRestaurant.category}} | {{selectedRestaurant.price}}
+                {{selectedRestaurant$.category}} | {{selectedRestaurant$.price}}
             </div>
             <div class="location"> 
-                {{selectedRestaurant.location}}
+                {{selectedRestaurant$.location}}
             </div>
             <div *ngIf="!selectedFiles && !editMode" class="centered-section">
-                <img src="{{selectedRestaurant.imageUrl}}" class="default-img">
+                <img src="{{selectedRestaurant$.imageUrl}}" class="default-img">
             </div>
             <!-- Display edited image if in edit mode -->
             <div *ngIf="editMode" class="centered-section">
@@ -59,7 +59,7 @@
         <div class="centered-section">
             <div class="description">
                 <mat-form-field class="full-width">
-                    <mat-label>How was your time at {{selectedRestaurant.name}}?</mat-label>
+                    <mat-label>How was your time at {{selectedRestaurant$.name}}?</mat-label>
                     <textarea
                         #description
                         type="text"
@@ -73,7 +73,7 @@
 
         <!-- Add to Favorite Toggle -->
         <div class="centered-section">
-            <mat-slide-toggle #favorite formControlName="isFavorite">Do you want to add {{selectedRestaurant.name}} to your favorite list?</mat-slide-toggle>
+            <mat-slide-toggle #favorite formControlName="isFavorite">Do you want to add {{selectedRestaurant$.name}} to your favorite list?</mat-slide-toggle>
         </div>
 
         <!-- Submit and Cancel Buttons -->
@@ -84,7 +84,7 @@
 
         <!-- Upload Progress Bar -->
         <div *ngIf="showProgress">
-            <mat-progress-bar mode="determinate" [value]="percentage"></mat-progress-bar>
+            <mat-progress-bar mode="determinate" [value]="percentage$"></mat-progress-bar>
         </div>
     </form>
 </div>

@@ -24,11 +24,11 @@ export class LogInComponent implements OnInit, OnDestroy {
 
   loginForm: FormGroup; // Declare the login form as a FormGroup
   subscription: Subscription | null;
-  isLoggedIn = false;
+  isLoggedIn$:boolean = false;
 
   ngOnInit(): void {
     this.subscription = this.auth._currentUser.subscribe((user) => {
-      this.isLoggedIn = !!!user
+      this.isLoggedIn$ = !!!user
     })
   }
 

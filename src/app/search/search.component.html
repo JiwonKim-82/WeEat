@@ -23,14 +23,14 @@
     </div>
 
     <ng-template #content>
-        <div *ngIf="!restaurants || restaurants.length === 0">
+        <div *ngIf="!restaurants$ || restaurants$.length === 0">
             <mat-error style="margin-top: 20px;">{{error}}</mat-error>
         </div>
 
 
-        <div *ngIf="restaurants && restaurants.length > 0">
+        <div *ngIf="restaurants$ && restaurants$.length > 0">
             <!-- Restaurant Cards -->
-            <div *ngFor="let restaurant of restaurants; let i = index" class="restaurant-info" matRipple (click)="openDialog(restaurant)">
+            <div *ngFor="let restaurant of restaurants$; let i = index" class="restaurant-info" matRipple (click)="openDialog(restaurant)">
                 <img [src]="restaurant.imageUrl" alt="">
 
                 <div class="restaurant">

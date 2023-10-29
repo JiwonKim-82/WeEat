@@ -8,7 +8,7 @@
           <mat-icon matListItemIcon>search</mat-icon>
         </mat-list-item>
 
-        <mat-list-item mat-list-item [routerLink]="'/dashboard/' + userUid">
+        <mat-list-item mat-list-item [routerLink]="'/dashboard/' + userUid$">
           <span>My Space</span>
           <mat-icon matListItemIcon>grid_on</mat-icon>
         </mat-list-item>
@@ -25,7 +25,7 @@
           <mat-icon matListItemIcon>list</mat-icon>
         </mat-list-item>
         <mat-expansion-panel class="mat-elevation-z0" #myFriendsPanel>
-          <div *ngFor="let friend of friendsList" class="user-display" (click)="toFoundUser(friend.uid)">
+          <div *ngFor="let friend of friendsList$" class="user-display" (click)="toFoundUser(friend.uid)">
             <img [src]="friend.profileURL" alt="Profile Image">
             <div class="foundUser-info">
               <div class="userName">{{ friend.userName }}</div>
@@ -37,7 +37,7 @@
               group_remove
             </mat-icon>
           </div>
-          <div *ngIf="friendsList.length === 0" style="padding-top: 10px;"> You have no Friends </div>
+          <div *ngIf="friendsList$.length === 0" style="padding-top: 10px;"> You have no Friends </div>
         </mat-expansion-panel>
 
          <!-- Find Friends -->
@@ -64,14 +64,14 @@
               </button>
             </mat-form-field>
           </div>
-          <div *ngIf="foundUser" (click)="toFoundUser(foundUser.uid)" class="user-display">
-            <img [src]="foundUser.profileURL" alt="Profile Image">
+          <div *ngIf="foundUser$" (click)="toFoundUser(foundUser$.uid)" class="user-display">
+            <img [src]="foundUser$.profileURL" alt="Profile Image">
             <div class="foundUser-info">
-              <div class="userName">{{ foundUser.userName }}</div>
-              <div class="email">{{ foundUser.email }}</div>
+              <div class="userName">{{ foundUser$.userName }}</div>
+              <div class="email">{{ foundUser$.email }}</div>
             </div>
           </div>
-          <div *ngIf="foundUser === null">User not found</div>
+          <div *ngIf="foundUser$ === null">User not found</div>
         </mat-expansion-panel>
       </mat-nav-list>
     </div>

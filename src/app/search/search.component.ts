@@ -17,9 +17,9 @@ export class SearchComponent implements OnInit, OnDestroy{
   keyword: string = '';
   currentPage: number = 1;
   totalPages: number = 0;
-  totalResponse: number = 0;
+  totalResponse$: number = 0;
   pageArray: number[] = [1, 2, 3, 4, 5];
-  restaurants: Restaurant[]|null;
+  restaurants$: Restaurant[]|null;
   subscription: Subscription | null;
   isLoading: boolean = true;
   error: string = 'No matching restaurants found. Please try again.';
@@ -42,10 +42,10 @@ export class SearchComponent implements OnInit, OnDestroy{
     }
     // Fetch the initial data from the API.
     this.subscription = this.searchService.getRestaurants(this.searchText, this.keyword, 0).subscribe(response => {
-      this.restaurants = response.restaurants;
-      this.totalResponse = response.total
+      this.restaurants$ = response.restaurants;
+      this.totalResponse$ = response.total
       this.isLoading = false;
-      this.totalPages = Math.ceil(this.totalResponse / 5);      
+      this.totalPages = Math.ceil(this.totalResponse$ / 5);      
     });
   }  
 
@@ -60,8 +60,8 @@ export class SearchComponent implements OnInit, OnDestroy{
     this.subscription = this.searchService.getRestaurants(this.searchText, this.keyword, 0)
     .subscribe(
       (res) => {
-        this.restaurants = res.restaurants;
-        this.totalResponse = res.total;
+        this.restaurants$ = res.restaurants;
+        this.totalResponse$ = res.total;
         this.isLoading = false;
         localStorage.setItem('searchData', JSON.stringify([this.searchText, this.keyword]))
       },
@@ -80,7 +80,7 @@ export class SearchComponent implements OnInit, OnDestroy{
     .subscribe(
       (res) => {
         this.isLoading = false;
-        this.restaurants = res.restaurants;
+        this.restaurants$ = res.restaurants;
       },
       (err) => {
         this.snackbarService.show('Something went wrong', 'error');

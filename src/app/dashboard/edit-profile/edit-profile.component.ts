@@ -15,10 +15,10 @@ import { SnackbarService } from 'src/app/service/snackbar.service';
 export class EditProfileComponent implements OnInit {
 
   EditForm: FormGroup;
-  currentUser: User;
+  currentUser$: User;
   selectedFile: FileList | undefined;
   currentFileUpload: FileUpload | undefined;
-  imagePreview: string;
+  imagePreview$: string|null;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: { uid: string },
@@ -36,8 +36,8 @@ export class EditProfileComponent implements OnInit {
 
     // Fetch user data using the provided UID
     this.firebaseService.getUserWithUid(this.data.uid).subscribe((user: User) => {
-      this.currentUser = user;
-      this.imagePreview = user.profileURL;
+      this.currentUser$ = user;
+      this.imagePreview$ = user.profileURL;
       this.EditForm.patchValue({
         userName: user.userName,
       });
@@ -50,7 +50,7 @@ export class EditProfileComponent implements OnInit {
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
-        this.imagePreview = reader.result as string;
+        this.imagePreview$ = reader.result as string;
       };
       reader.readAsDataURL(file);
       this.selectedFile = event.target.files;
@@ -68,9 +68,9 @@ export class EditProfileComponent implements OnInit {
     const newUsername = this.EditForm.get('userName').value;
     const updateObservables = [];
   
-    if (newUsername !== this.currentUser.userName) {
+    if (newUsername !== this.currentUser$.userName) {
       // Username has changed, update it
-      updateObservables.push(this.firebaseService.updateUserName(this.currentUser.uid, newUsername));    
+      updateObservables.push(this.firebaseService.updateUserName(this.currentUser$.uid, newUsername));    
     }
   
     // Check if a new profile image is selected
@@ -83,12 +83,12 @@ export class EditProfileComponent implements OnInit {
         const reader = new FileReader();
         reader.onload = () => {
         // Set the image preview with the data URL
-        this.imagePreview = reader.result as string;
+        this.imagePreview$ = reader.result as string;
         };
         reader.readAsDataURL(file);
         // Update the profile image
         updateObservables.push(
-          this.firebaseService.updateProfileImage(this.currentUser.uid, this.currentFileUpload)
+          this.firebaseService.updateProfileImage(this.currentUser$.uid, this.currentFileUpload)
         );
       }
     }

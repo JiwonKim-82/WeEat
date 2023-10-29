@@ -31,10 +31,10 @@ export class SideNavBarComponent implements OnInit, OnDestroy{
   @ViewChild('findFriendsPanel') findFriendsPanel: MatExpansionPanel;
   
   // Component properties
-  userUid: string = ''; // Logged-in User's UID
-  friendsList: User[] = []; // List of user's friends
+  userUid$: string = ''; // Logged-in User's UID
+  friendsList$: User[] = []; // List of user's friends
   searchedUsername: string = ''; // Username being searched
-  foundUser: User = null; // User found in search results
+  foundUser$: User = null; // User found in search results
   subscriptions: Subscription[] = []; // Array to store subscriptions
   isMyFriendsPanelOpen: boolean = false; // Flag for myFriendsPanel
   isFindFriendsPanelOpen: boolean = false; // Flag for findFriendsPanel
@@ -44,7 +44,7 @@ export class SideNavBarComponent implements OnInit, OnDestroy{
     this.subscriptions.push(
       this.auth._currentUser.subscribe((user) => {
         if (user) {
-          this.userUid = user.uid;
+          this.userUid$ = user.uid;
           this.subscribeToFriends();
         }
       })
@@ -54,9 +54,9 @@ export class SideNavBarComponent implements OnInit, OnDestroy{
   // Subscribe to the user's friends
   subscribeToFriends() {
     this.subscriptions.push(
-      this.firebaseService.getUserFriends(this.userUid).subscribe((friends) => {
+      this.firebaseService.getUserFriends(this.userUid$).subscribe((friends) => {
         if (friends) {
-          this.friendsList = friends || [];
+          this.friendsList$ = friends || [];
         }
       })
     );
@@ -85,7 +85,7 @@ export class SideNavBarComponent implements OnInit, OnDestroy{
         });
     dialogRef.afterClosed().subscribe(dialogResult => {
       if (dialogResult) {
-        this.firebaseService.deleteFriend(this.userUid, friendUid)
+        this.firebaseService.deleteFriend(this.userUid$, friendUid)
         .then(() => {
           this.snackbarService.show('Friend removed successfully', 'success')
         })
@@ -104,7 +104,7 @@ export class SideNavBarComponent implements OnInit, OnDestroy{
     .getUserByUsername(this.searchedUsername)
     .pipe(take(1))
     .subscribe((user) => {
-      this.foundUser = user;
+      this.foundUser$ = user;
     });
     this.subscriptions.push(userSubscription);
   }

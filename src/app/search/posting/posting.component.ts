@@ -24,13 +24,13 @@ export class PostingComponent implements OnInit, OnDestroy{
 
   editMode:boolean = false;
   editModePosting: Post | null;
-  $currentUser: User | null;
+  currentUser$: User | null;
   postingForm: FormGroup | null;
-  selectedRestaurant: Restaurant | null;
+  selectedRestaurant$: Restaurant | null;
   selectedFiles: FileList | null;
   private destroy$ = new Subject<void>();
   currentFileUpload: FileUpload | null;
-  percentage:number = 0;
+  percentage$:number = 0;
   showProgress: boolean = false
   imageChangedEvent: any = '';
   croppedImageUrl: any = '';
@@ -62,20 +62,20 @@ export class PostingComponent implements OnInit, OnDestroy{
     this.currentUserSubscription = this.authService._currentUser
       .pipe(takeUntil(this.destroy$))
       .subscribe(currentUser => {
-        this.$currentUser = currentUser;
+        this.currentUser$ = currentUser;
     });
     if (this.editMode) {
       // Set selectedRestaurant and croppedImageUrl directly based on editModePosting
-      this.selectedRestaurant = this.editModePosting.restaurant;
+      this.selectedRestaurant$ = this.editModePosting.restaurant;
       this.editModeImage = this.editModePosting.fileUrl;
     } else {
       // In non-edit mode, retrieve selectedRestaurant using a service
-      combineLatest([
+      combineLatest(
         this.searchService.getSelectedRestaurant(),
-      ])
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(([restaurant]) => {
-        this.selectedRestaurant = restaurant;
+        // Other observables to combine
+      ).pipe(takeUntil(this.destroy$)).subscribe(([restaurant, /* Other results */]) => {
+        this.selectedRestaurant$ = restaurant;
+        // Handle the results of other combined observables
       });
     }
     // Initialize the form for edit or non-edit mode
@@ -110,13 +110,13 @@ export class PostingComponent implements OnInit, OnDestroy{
       const newIsFavorite = this.postingForm.get('isFavorite').value // isFavorite
       // Update an existing post
       this.FirebaseService.updatePost(
-        this.$currentUser.uid, 
+        this.currentUser$.uid, 
         this.editModePosting.timestamp, 
         newDescription, 
         newIsFavorite)
       .subscribe(
         (percentage) => {
-          this.percentage = Math.round(percentage ? percentage : 0);
+          this.percentage$ = Math.round(percentage ? percentage : 0);
             if (percentage === 100) {
               setTimeout(() => {
                 this.dialogRef.closeAll();
@@ -146,7 +146,7 @@ export class PostingComponent implements OnInit, OnDestroy{
 
         // Create a Post instance with the uploaded file URL
         const post = new Post(
-          this.selectedRestaurant, // Restaurant information
+          this.selectedRestaurant$, // Restaurant information
           this.postingForm.get('description').value, // Description
           this.postingForm.get('isFavorite').value, // isFavorite
           this.currentFileUpload.url
@@ -155,10 +155,10 @@ export class PostingComponent implements OnInit, OnDestroy{
         this.FirebaseService.pushFileToStorage(
           this.currentFileUpload, 
           post, 
-          this.$currentUser.uid)
+          this.currentUser$.uid)
         .subscribe(
           (percentage) => {
-            this.percentage = Math.round(percentage ? percentage : 0);
+            this.percentage$ = Math.round(percentage ? percentage : 0);
             if (percentage === 100 && !alertShown) {
               alertShown = true; // Set the flag to true to prevent multiple alerts
               setTimeout(() => {
