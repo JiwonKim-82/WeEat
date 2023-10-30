@@ -7,12 +7,18 @@ import { AuthService } from 'src/app/service/auth.service';
 import { FirebaseService } from 'src/app/service/firebase.service';
 import { SnackbarService } from 'src/app/service/snackbar.service';
 import { ConfirmDialogComponent, ConfirmDialogModel } from 'src/app/shared/confirm-dialog/confirm-dialog.component';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { NgIf } from '@angular/common';
 
 
 @Component({
-  selector: 'app-post',
-  templateUrl: './post.component.html',
-  styleUrls: ['./post.component.css']
+    selector: 'app-post',
+    templateUrl: './post.component.html',
+    styleUrls: ['./post.component.css'],
+    standalone: true,
+    imports: [NgIf, MatButtonModule, MatIconModule, MatMenuModule]
 })
 export class PostComponent {
 

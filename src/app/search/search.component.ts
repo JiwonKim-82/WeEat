@@ -5,11 +5,20 @@ import { MatDialog } from '@angular/material/dialog';
 import { PostingComponent } from './posting/posting.component';
 import { SearchService } from '../service/search.service';
 import { SnackbarService } from '../service/snackbar.service';
+import { MatRippleModule } from '@angular/material/core';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { NgIf, NgFor, NgClass } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-search',
-  templateUrl: './search.component.html',
-  styleUrls: ['./search.component.css']
+    selector: 'app-search',
+    templateUrl: './search.component.html',
+    styleUrls: ['./search.component.css'],
+    standalone: true,
+    imports: [FormsModule, MatButtonModule, MatIconModule, NgIf, MatProgressSpinnerModule, MatFormFieldModule, NgFor, MatRippleModule, NgClass]
 })
 export class SearchComponent implements OnInit, OnDestroy{
 

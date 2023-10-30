@@ -26,13 +26,11 @@
               <mat-error *ngIf="loginForm.get('password').invalid">{{getPasswordErrorMessage()}}</mat-error>
             </mat-form-field>
           </div>
-          <div class="row">
-            <div class="buttons">
-              <!-- Login button -->
-              <button mat-raised-button color="primary" type="submit">Login</button>
-              <!-- Signup button -->
-              <button type="button" (click)="onSignUp()" mat-raised-button>Signup</button>
-            </div>
+          <div class="buttons">
+            <!-- Login button -->
+            <button mat-raised-button color="primary" type="submit">Login</button>
+            <!-- Signup button -->
+            <button type="button" (click)="onSignUp()" mat-raised-button>Signup</button>
           </div>
       </div>
   </form>

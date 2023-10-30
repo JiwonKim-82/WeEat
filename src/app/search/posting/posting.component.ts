@@ -1,5 +1,5 @@
 import { Component, Inject, OnDestroy, OnInit, Optional } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Restaurant } from '../../model/restaurant.model';
 import { SearchService } from '../../service/search.service';
 import { Subject, Subscription, combineLatest } from 'rxjs';
@@ -10,14 +10,23 @@ import { FirebaseService } from '../../service/firebase.service';
 import { Post } from '../../model/posting.model';
 import { User } from 'src/app/model/user.model';
 import { DomSanitizer } from '@angular/platform-browser';
-import { ImageCroppedEvent } from 'ngx-image-cropper';
+import { ImageCroppedEvent, ImageCropperModule } from 'ngx-image-cropper';
 import { takeUntil } from 'rxjs/operators';
 import { SnackbarService } from 'src/app/service/snackbar.service';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { NgIf } from '@angular/common';
 
 @Component({
-  selector: 'app-posting',
-  templateUrl: './posting.component.html',
-  styleUrls: ['./posting.component.css']
+    selector: 'app-posting',
+    templateUrl: './posting.component.html',
+    styleUrls: ['./posting.component.css'],
+    standalone: true,
+    imports: [FormsModule, ReactiveFormsModule, NgIf, ImageCropperModule, MatCardModule, MatButtonModule, MatFormFieldModule, MatInputModule, MatSlideToggleModule, MatProgressBarModule]
 })
 
 export class PostingComponent implements OnInit, OnDestroy{

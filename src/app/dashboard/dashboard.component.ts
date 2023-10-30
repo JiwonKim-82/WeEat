@@ -2,18 +2,25 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AuthService } from '../service/auth.service';
 import { FirebaseService } from '../service/firebase.service';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Subject, Subscription } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { User } from '../model/user.model';
 import { Post } from '../model/posting.model';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { PostComponent } from './post/post.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { NgIf, NgFor } from '@angular/common';
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css']
+    selector: 'app-dashboard',
+    templateUrl: './dashboard.component.html',
+    styleUrls: ['./dashboard.component.css'],
+    standalone: true,
+    imports: [NgIf, MatButtonModule, MatIconModule, RouterLink, MatTabsModule, MatProgressSpinnerModule, NgFor]
 })
 export class DashboardComponent implements OnInit, OnDestroy {
 

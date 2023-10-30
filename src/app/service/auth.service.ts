@@ -75,7 +75,7 @@ export class AuthService {
       // Navigate to the user's dashboard with parameter of uid
       this.router.navigate(['/dashboard', uid]);
     }, (error) => {
-      this.snackbarService.show('Something went wrong', 'error');
+      this.snackbarService.show('Logged out', 'error');
     });
   }
     

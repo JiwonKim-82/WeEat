@@ -4,7 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
-import { MaterialModule } from './shared/material.module';
+
 
 import { AppComponent } from './app.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
@@ -28,15 +28,28 @@ import { EditProfileComponent } from './dashboard/edit-profile/edit-profile.comp
 import { SideNavBarComponent } from './side-navbar/side-navbar';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { ConfirmDialogComponent } from './shared/confirm-dialog/confirm-dialog.component';
-import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
-
-
-
+import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
 
 
 @NgModule({
-  declarations: [
-    AppComponent,
+    declarations: [AppComponent],
+    imports: [
+    BrowserModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    FormsModule,
+    ReactiveFormsModule,
+    RouterModule,
+    AppRoutingModule,
+    HttpClientModule,
+    FormsModule,
+    MatSnackBarModule,
+    MatSidenavModule,
+    BrowserAnimationsModule,
+    AngularFireAuthModule,
+    AngularFireDatabaseModule,
+    AngularFireStorageModule,
+    ImageCropperModule,
     SignUpComponent,
     LogInComponent,
     DashboardComponent,
@@ -47,26 +60,10 @@ import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
     EditProfileComponent,
     SideNavBarComponent,
     ConfirmDialogComponent
-  ],
-  imports: [
-    BrowserModule,
-    AngularFireModule.initializeApp(environment.firebase),
-    FormsModule,
-    ReactiveFormsModule,
-    RouterModule,
-    AppRoutingModule,
-    HttpClientModule,
-    FormsModule,
-    BrowserAnimationsModule,
-    AngularFireAuthModule,
-    AngularFireDatabaseModule,
-    AngularFireStorageModule,
-    MaterialModule,
-    ImageCropperModule
 ],
-  providers: [
-    {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 2000}}
-  ],
-  bootstrap: [AppComponent]
+    providers: [
+        { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 2000 } }
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }

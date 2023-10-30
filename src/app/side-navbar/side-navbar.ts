@@ -1,20 +1,30 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 
 import { AuthService } from 'src/app/service/auth.service';
-import { MatExpansionPanel } from '@angular/material/expansion';
+import { MatExpansionPanel, MatExpansionModule } from '@angular/material/expansion';
 import { FirebaseService } from '../service/firebase.service';
 import { User } from '../model/user.model';
 import { MatDialog } from '@angular/material/dialog';
 import { SnackbarService } from '../service/snackbar.service';
 import { ConfirmDialogComponent, ConfirmDialogModel } from '../shared/confirm-dialog/confirm-dialog.component';
+import { MatButtonModule } from '@angular/material/button';
+import { FormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { NgFor, NgIf } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
 
 @Component({
-  selector: 'app-side-navbar',
-  templateUrl: './side-navbar.html',
-  styleUrls: ['./side-navbar.component.css']
+    selector: 'app-side-navbar',
+    templateUrl: './side-navbar.html',
+    styleUrls: ['./side-navbar.component.css'],
+    standalone: true,
+    imports: [MatListModule, RouterLink, MatIconModule, MatExpansionModule, NgFor, MatTooltipModule, NgIf, MatFormFieldModule, MatInputModule, FormsModule, MatButtonModule]
 })
 export class SideNavBarComponent implements OnInit, OnDestroy{
 
