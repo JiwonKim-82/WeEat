@@ -1,27 +1,23 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AuthService } from '../service/auth.service';
-import { FirebaseService } from '../service/firebase.service';
+import { AuthService } from '../../service/auth.service';
+import { FirebaseService } from '../../service/firebase.service';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, Subscription } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
-import { User } from '../model/user.model';
-import { Post } from '../model/posting.model';
-import { EditProfileComponent } from './edit-profile/edit-profile.component';
-import { PostComponent } from './post/post.component';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatTabsModule } from '@angular/material/tabs';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { NgIf, NgFor } from '@angular/common';
+import { User } from '../../auth/auth/model/user.model';
+import { Post } from '../../model/posting.model';
+import { EditProfileComponent } from './edit-profile-dialog/edit-profile.component';
+import { PostComponent } from './post-dialog/post.component';
+import { Store, select } from '@ngrx/store';
+import { AuthState } from 'src/app/auth/auth/reducers';
+import { currentUser } from 'src/app/auth/auth/auth.selectors';
 
 @Component({
     selector: 'app-dashboard',
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.css'],
-    standalone: true,
-    imports: [NgIf, MatButtonModule, MatIconModule, RouterLink, MatTabsModule, MatProgressSpinnerModule, NgFor]
-})
+    })
 export class DashboardComponent implements OnInit, OnDestroy {
 
   constructor(
@@ -29,7 +25,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     private firebaseService: FirebaseService,
     private dialogRef: MatDialog,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private store:Store<AuthState>
   ) {}
   
   currentUser: User = null; // Current user information
@@ -47,11 +44,24 @@ export class DashboardComponent implements OnInit, OnDestroy {
       // Unsubscribe when the component is destroyed
       takeUntil(this.destroy$)
     ).subscribe((params) => {
-      this.routeUid$ = params['uid'];
-      // Check the param uid equals to logged-in user uid
-      this.isCurrentUserProfile = this.routeUid$ === localStorage.getItem('UID');
-      // Fetch user data and posts based on the route UID
-      this.fetchUserDataAndPosts(this.routeUid$);
+      this.routeUid$ = params['id'];
+      const userString = localStorage.getItem('user');
+      
+      if (userString) {
+        const userObject = JSON.parse(userString);
+        const localUid = userObject.uid;
+        
+        // Check if the local 'uid' matches the route parameter 'id'
+        this.isCurrentUserProfile = this.routeUid$ === localUid;
+        
+        // Fetch user data and posts based on the route UID
+        this.fetchUserDataAndPosts(this.routeUid$);
+      } else {
+        // Handle the case when 'user' is not present in local storage
+        this.isCurrentUserProfile = false;
+        // Fetch user data and posts based on the route UID
+        this.fetchUserDataAndPosts(this.routeUid$);
+      }
     });
   }
 
@@ -76,7 +86,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
     // Fetch the currently logged-in user's data
     this.subscriptions.push(
-      this.authService._currentUser
+      this.store.pipe(select(currentUser))
         .pipe(
           filter((user) => !!user),
           takeUntil(this.destroy$)

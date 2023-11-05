@@ -1,25 +1,21 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Post } from 'src/app/model/posting.model';
-import { User } from 'src/app/model/user.model';
-import { PostingComponent } from 'src/app/search/posting/posting.component';
+import { User } from 'src/app/auth/auth/model/user.model';
+import { PostingComponent } from 'src/app/feature/search/posting-dialog/posting.component';
 import { AuthService } from 'src/app/service/auth.service';
 import { FirebaseService } from 'src/app/service/firebase.service';
 import { SnackbarService } from 'src/app/service/snackbar.service';
 import { ConfirmDialogComponent, ConfirmDialogModel } from 'src/app/shared/confirm-dialog/confirm-dialog.component';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { NgIf } from '@angular/common';
-
+import { Store, select } from '@ngrx/store';
+import { currentUser } from 'src/app/auth/auth/auth.selectors';
+import { AuthState } from 'src/app/auth/auth/reducers';
 
 @Component({
     selector: 'app-post',
     templateUrl: './post.component.html',
     styleUrls: ['./post.component.css'],
-    standalone: true,
-    imports: [NgIf, MatButtonModule, MatIconModule, MatMenuModule]
-})
+  })
 export class PostComponent {
 
   selectedPost: Post = null;
@@ -32,7 +28,8 @@ export class PostComponent {
     private authService: AuthService,
     private snackbarService: SnackbarService,
     private dialogRef: MatDialogRef<PostComponent>,
-    private dialogPosting: MatDialog
+    private dialogPosting: MatDialog,
+    private store: Store<AuthState>
   ) {
     // Initialize selectedPost and isCurrentUserProfile from the injected data
     this.selectedPost = data.post;
@@ -41,7 +38,9 @@ export class PostComponent {
 
   ngOnInit(): void {
     // Subscribe to user changes to get the current user
-    this.authService._currentUser.subscribe((user)=>{this.currentUser$ = user})
+    this.store.pipe(select(currentUser)).subscribe((user) => {
+      this.currentUser$ = user;
+      });
   }
 
   onDelete(): void {

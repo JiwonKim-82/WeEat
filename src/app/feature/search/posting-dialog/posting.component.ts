@@ -1,32 +1,26 @@
 import { Component, Inject, OnDestroy, OnInit, Optional } from '@angular/core';
-import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Restaurant } from '../../model/restaurant.model';
-import { SearchService } from '../../service/search.service';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Restaurant } from '../../../model/restaurant.model';
+import { SearchService } from '../../../service/search.service';
 import { Subject, Subscription, combineLatest } from 'rxjs';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { AuthService } from 'src/app/service/auth.service';
-import { FileUpload } from '../../model/file-upload.model';
-import { FirebaseService } from '../../service/firebase.service';
-import { Post } from '../../model/posting.model';
-import { User } from 'src/app/model/user.model';
+import { FileUpload } from '../../../model/file-upload.model';
+import { FirebaseService } from '../../../service/firebase.service';
+import { Post } from '../../../model/posting.model';
+import { User } from 'src/app/auth/auth/model/user.model';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ImageCroppedEvent, ImageCropperModule } from 'ngx-image-cropper';
 import { takeUntil } from 'rxjs/operators';
 import { SnackbarService } from 'src/app/service/snackbar.service';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { NgIf } from '@angular/common';
+import { Store, select } from '@ngrx/store';
+import { AuthState } from 'src/app/auth/auth/reducers';
+import { currentUser } from 'src/app/auth/auth/auth.selectors';
 
 @Component({
     selector: 'app-posting',
     templateUrl: './posting.component.html',
     styleUrls: ['./posting.component.css'],
-    standalone: true,
-    imports: [FormsModule, ReactiveFormsModule, NgIf, ImageCropperModule, MatCardModule, MatButtonModule, MatFormFieldModule, MatInputModule, MatSlideToggleModule, MatProgressBarModule]
 })
 
 export class PostingComponent implements OnInit, OnDestroy{
@@ -54,6 +48,7 @@ export class PostingComponent implements OnInit, OnDestroy{
     private snackbarService: SnackbarService,
     private dialogRef: MatDialog,
     private sanitizer: DomSanitizer,
+    private store: Store<AuthState>,
     @Optional() @Inject(MAT_DIALOG_DATA) public data?: { post: Post, editMode: boolean } // Optional injection
   ) {
     // Check if data is provided via injection set editMode
@@ -65,10 +60,10 @@ export class PostingComponent implements OnInit, OnDestroy{
       this.editModePosting = null;
     }
   }
-
+  
   ngOnInit() {
     // Always retrieve currentUser
-    this.currentUserSubscription = this.authService._currentUser
+    this.currentUserSubscription = this.store.pipe(select(currentUser))
       .pipe(takeUntil(this.destroy$))
       .subscribe(currentUser => {
         this.currentUser$ = currentUser;

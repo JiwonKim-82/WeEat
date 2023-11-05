@@ -1,25 +1,24 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms'; 
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms'; 
 import { Router } from '@angular/router';
-import { AuthService } from '../service/auth.service';
-import { Subscription } from 'rxjs';
-import { MatButtonModule } from '@angular/material/button';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { NgIf } from '@angular/common';
+import { Observable, Subscription, noop, tap } from 'rxjs';
+import { AuthState } from '../reducers';
+import { Store, select } from '@ngrx/store';
+import { login } from '../auth.actions';
+import { isLoggedOut } from '../auth.selectors';
+import { AuthActions } from '../action-types';
+import { User } from '../model/user.model';
 
 @Component({
     selector: 'app-log-in',
     templateUrl: './log-in.component.html',
-    styleUrls: ['./log-in.component.css'],
-    standalone: true,
-    imports: [NgIf, FormsModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule]
+    styleUrls: ['./log-in.component.css']
 })
 export class LogInComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
-    private auth: AuthService,
-    private fb: FormBuilder 
+    private fb: FormBuilder,
+    private store: Store<AuthState>
   ) {
     // Initialize the login form using FormBuilder
     this.loginForm = fb.group({
@@ -30,26 +29,22 @@ export class LogInComponent implements OnInit, OnDestroy {
 
   loginForm: FormGroup; // Declare the login form as a FormGroup
   subscription: Subscription | null;
-  isLoggedIn$:boolean = false;
+  isLoggedOut$: Observable<boolean>;
 
   ngOnInit(): void {
-    this.subscription = this.auth._currentUser.subscribe((user) => {
-      this.isLoggedIn$ = !!!user
-    })
+    this.isLoggedOut$ = this.store.pipe(select(isLoggedOut))
   }
 
   onSignUp() {
     this.router.navigate(['/signup']); 
-    // Redirect to the signup page when the Signup button is clicked
   }
 
   onLogin() {
     if (this.loginForm.valid) {
-      // Check if the login form is valid
-      // Use form values directly from the FormGroup
-      const email = this.loginForm.get('email')?.value; 
-      const password = this.loginForm.get('password')?.value; 
-      this.auth.logIn(email, password); 
+      const val = this.loginForm.value;
+  
+      this.store.dispatch(AuthActions.login({ email: val.email, password: val.password }))
+      
     }
   }
 
@@ -70,6 +65,6 @@ export class LogInComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    this.subscription?.unsubscribe();
   }
 }

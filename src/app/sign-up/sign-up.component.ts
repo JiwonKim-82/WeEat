@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { User } from '../model/user.model';
+import { User } from '../auth/auth/model/user.model';
 import { AuthService } from '../service/auth.service';
 import { FileUpload } from '../model/file-upload.model';
 import { FirebaseService } from '../service/firebase.service';
@@ -94,7 +94,8 @@ export class SignUpComponent implements OnInit{
           userCredential.uid,
           userCredential.userName,
           lowercaseName,
-          userCredential.email
+          userCredential.email,
+          userCredential.password
         );
         await this.firebaseService.uploadProfileImage(user, fileUpload);
       }

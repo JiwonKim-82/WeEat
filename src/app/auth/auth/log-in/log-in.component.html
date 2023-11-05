@@ -4,7 +4,7 @@
     <div>Share in Joy</div>
   </div>
   <form class="container" 
-  *ngIf="isLoggedIn$" 
+  *ngIf="isLoggedOut$|async" 
   [formGroup]="loginForm" 
   (submit)="onLogin()">
       <div>

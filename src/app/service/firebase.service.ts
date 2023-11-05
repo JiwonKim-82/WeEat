@@ -5,7 +5,7 @@ import { Observable, from } from 'rxjs';
 import { catchError, finalize, map, take } from 'rxjs/operators';
 import { FileUpload } from '../model/file-upload.model';
 import { Post } from '../model/posting.model';
-import { User} from '../model/user.model';
+import { User} from '../auth/auth/model/user.model';
 import { SnackbarService } from './snackbar.service';
 
 

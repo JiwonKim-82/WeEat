@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -6,7 +6,7 @@ import { take } from 'rxjs/operators';
 import { AuthService } from 'src/app/service/auth.service';
 import { MatExpansionPanel, MatExpansionModule } from '@angular/material/expansion';
 import { FirebaseService } from '../service/firebase.service';
-import { User } from '../model/user.model';
+import { User } from '../auth/auth/model/user.model';
 import { MatDialog } from '@angular/material/dialog';
 import { SnackbarService } from '../service/snackbar.service';
 import { ConfirmDialogComponent, ConfirmDialogModel } from '../shared/confirm-dialog/confirm-dialog.component';
@@ -18,10 +18,14 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { NgFor, NgIf } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
+import { Store, select } from '@ngrx/store';
+import { AuthState } from '../auth/auth/reducers';
+import { logout } from '../auth/auth/auth.actions';
+import { currentUser } from '../auth/auth/auth.selectors';
 
 @Component({
     selector: 'app-side-navbar',
-    templateUrl: './side-navbar.html',
+    templateUrl: './side-navbar.component.html',
     styleUrls: ['./side-navbar.component.css'],
     standalone: true,
     imports: [MatListModule, RouterLink, MatIconModule, MatExpansionModule, NgFor, MatTooltipModule, NgIf, MatFormFieldModule, MatInputModule, FormsModule, MatButtonModule]
@@ -33,7 +37,8 @@ export class SideNavBarComponent implements OnInit, OnDestroy{
     private firebaseService: FirebaseService,
     private snackbarService: SnackbarService,
     private router: Router,
-    private dialog: MatDialog) { 
+    private dialog: MatDialog,
+    private store: Store<AuthState>) { 
     }
 
   // ViewChild references to expansion panels
@@ -49,11 +54,13 @@ export class SideNavBarComponent implements OnInit, OnDestroy{
   isMyFriendsPanelOpen: boolean = false; // Flag for myFriendsPanel
   isFindFriendsPanelOpen: boolean = false; // Flag for findFriendsPanel
 
+
   ngOnInit() {
     // Subscribe to the current user
     this.subscriptions.push(
-      this.auth._currentUser.subscribe((user) => {
+      this.store.pipe(select(currentUser)).subscribe((user) => {
         if (user) {
+          console.log(user)
           this.userUid$ = user.uid;
           this.subscribeToFriends();
         }
@@ -122,14 +129,14 @@ export class SideNavBarComponent implements OnInit, OnDestroy{
   // Navigate to the found user's dashboard
   toFoundUser(uid: string){
     if (uid) {
-      this.router.navigate(['/dashboard', uid]);
+      this.router.navigate(['/WeEat/dashboard', uid]);
     }
     this.searchedUsername = ''
   }
 
   // Log out the user
   onLogOut() {
-    this.auth.logOut();
+    this.store.dispatch(logout());
     this.router.navigate(['/login']);
   }
 

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
-import { User } from '../model/user.model';
+import { BehaviorSubject, Observable, catchError, from, of, switchMap, switchMapTo, tap } from 'rxjs';
+import { User } from '../auth/auth/model/user.model';
 import { FirebaseService } from './firebase.service';
 import { SnackbarService } from './snackbar.service';
 
@@ -18,66 +18,53 @@ export class AuthService {
     private snackbarService: SnackbarService
   ) {}
 
-  _isLoggedIn = new BehaviorSubject<Boolean>(false);  // BehaviorSubject to track whether the user is logged in or not
-  _currentUser = new BehaviorSubject<User>(null); // BehaviorSubject to store the current user information
   _userName = new BehaviorSubject<string>(''); // BehaviorSubject to store the user's display name
-
   // Define constants for error messages
   private readonly USER_NOT_FOUND = 'User not found. Please check your email.';
   private readonly WRONG_PASSWORD = 'Wrong password. Please try again.';
   private readonly WRONG_CREDENTIALS = 'Wrong email or password. Try again';
   private readonly EMAIL_EXISTS = 'Email is already in use. Please choose another email.'
   private readonly REQUEST_FAILED = 'Network request failed. Please check your internet connection.'
-
-  logIn(email: string, password: string) {
-
-    // log in using Firebase Authentication
-    this.fireAuth.signInWithEmailAndPassword(email, password)
-      .then((userCredential) => {
-
-        // Successful login
-        this.snackbarService.show('Log in Success!', 'success')
-
-        // Retrieve user data from Firebase Firestore and navigate
-        this.loadUserData(userCredential.user.uid);
-        })
-      .catch((error) => {
+  
+  logIn(email: string, password: string): Observable<User> {
+    return from(this.fireAuth.signInWithEmailAndPassword(email, password)).pipe(
+      switchMap((userCredential) => {
+        this.snackbarService.show('Log in Success!', 'success');
+        return this.loadUserData(userCredential.user.uid);
+      }),
+      catchError((error) => {
         const errorCode = error.code;
+        let errorMessage: string;
         // Handle different authentication error cases
         switch (errorCode) {
           case 'auth/user-not-found':
-            this.snackbarService.show(this.USER_NOT_FOUND, 'error');
+            errorMessage = 'User not found';
             break;
           case 'auth/wrong-password':
-            this.snackbarService.show(this.WRONG_PASSWORD, 'error')
+            errorMessage = 'Wrong password';
             break;
           default:
-            this.snackbarService.show(this.WRONG_CREDENTIALS, 'error')
-          }
-        // Navigate to the login page on error
-        this.router.navigate(['/login']);
-    });
+            errorMessage = 'Wrong credentials';
+        }
+        this.snackbarService.show(errorMessage, 'error');
+        throw new Error(errorMessage); // Throw an error on login failure
+      })
+    );
   }
     
-  private loadUserData(uid: string) {
-    // Retrieve user data from Firebase Firestore
-    this.firebaseService.getUserWithUid(uid).subscribe((userData) => {
-
-      // Update the _currentUser BehaviorSubject with user data
-      this._currentUser.next(userData);
-
-      // Save user data for future auto Login
-      this.saveUserData(uid);
-
-      // Update authentication status
-      this._isLoggedIn.next(true);
-
-      // Navigate to the user's dashboard with parameter of uid
-      this.router.navigate(['/dashboard', uid]);
-    }, (error) => {
-      this.snackbarService.show('Logged out', 'error');
-    });
+  private loadUserData(uid: string): Observable<User> {
+    return this.firebaseService.getUserWithUid(uid).pipe(
+      tap((userData) => {
+        console.log(userData);
+        this.router.navigate(['/WeEat/dashboard', userData.uid]);
+      }),
+      catchError((error) => {
+        this.snackbarService.show('Logged out', 'error');
+        return of(null); // Return a null user object on error
+      })
+    );
   }
+
     
   //Register a new user with provided email, password, and username
   async signIn(email: string, password: string, userName: string): Promise<User | null> {
@@ -116,31 +103,13 @@ export class AuthService {
     }
   }
 
-  autoLogin() {
-    //Get stored UID from local storage
-    const UID = localStorage.getItem('UID');
-    if (UID) {
-      // Retrieve user data from Firebase Firestore
-      this.firebaseService.getUserWithUid(UID).subscribe((user)=> {this._currentUser.next(user)})
-      // Update authentication status
-      this._isLoggedIn.next(true)
-    }
-  }
-
   logOut(){
-    this.fireAuth.signOut().then( () => {
-      //clear Local storage
-      localStorage.clear();
-      // Update user status and authentication status
-      this._currentUser.next(null);
-      this._isLoggedIn.next(false)
+    return this.fireAuth.signOut().then( () => {
+      this.snackbarService.show('Log out Success!', 'success');
     }, err => {
       this.snackbarService.show('Something went wrong', 'error');
     }
     )
   }
 
-  private saveUserData(uid: string) {
-    localStorage.setItem('UID', uid);
-  }
 }

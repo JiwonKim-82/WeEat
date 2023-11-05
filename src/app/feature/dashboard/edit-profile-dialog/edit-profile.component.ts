@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FileUpload } from 'src/app/model/file-upload.model';
-import { User} from 'src/app/model/user.model';
+import { User} from 'src/app/auth/auth/model/user.model';
 import { FirebaseService } from 'src/app/service/firebase.service';
 import { forkJoin } from 'rxjs';
 import { SnackbarService } from 'src/app/service/snackbar.service';
@@ -14,10 +14,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 @Component({
     selector: 'app-edit-profile',
     templateUrl: './edit-profile.component.html',
-    styleUrls: ['./edit-profile.component.css'],
-    standalone: true,
-    imports: [FormsModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, NgIf, MatButtonModule]
-})
+    styleUrls: ['./edit-profile.component.css']
+  })
 export class EditProfileComponent implements OnInit {
 
   EditForm: FormGroup;
