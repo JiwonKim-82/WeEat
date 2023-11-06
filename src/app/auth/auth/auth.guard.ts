@@ -13,7 +13,8 @@ export class AuthGuard implements CanActivate {
 
     constructor(
         private store: Store<AuthState>,
-        private router: Router) {
+        private router: Router,
+        private snackbarService: SnackbarService) {
 
     }
 
@@ -26,6 +27,7 @@ export class AuthGuard implements CanActivate {
                 select(isLoggedIn),
                 tap(loggedIn => {
                     if (!loggedIn) {
+                        this.snackbarService.show('Please log in first', 'error');
                         this.router.navigateByUrl('/login');
                     }
                 })

@@ -19,10 +19,7 @@ export class AuthEffects {
                 }),
                 map((user) => AuthActions.loginSuccess({ user })),
                 catchError((error) => {
-                // Handle the error here
                 console.error('Login failed:', error.message);
-
-                // Dispatch a login failure action if needed
                 return of(AuthActions.loginFailure());
                 })
             )
