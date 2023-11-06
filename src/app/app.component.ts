@@ -26,7 +26,6 @@ export class AppComponent implements OnInit, OnDestroy{
 
     const userProfile = localStorage.getItem('user');
     if(userProfile){
-      console.log(userProfile + 'hi')
       this.store.dispatch(loginSuccess({user: JSON.parse(userProfile)}))
     }
 

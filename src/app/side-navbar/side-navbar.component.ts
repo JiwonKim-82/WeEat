@@ -60,7 +60,6 @@ export class SideNavBarComponent implements OnInit, OnDestroy{
     this.subscriptions.push(
       this.store.pipe(select(currentUser)).subscribe((user) => {
         if (user) {
-          console.log(user)
           this.userUid$ = user.uid;
           this.subscribeToFriends();
         }

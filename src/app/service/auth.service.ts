@@ -55,7 +55,6 @@ export class AuthService {
   private loadUserData(uid: string): Observable<User> {
     return this.firebaseService.getUserWithUid(uid).pipe(
       tap((userData) => {
-        console.log(userData);
         this.router.navigate(['/WeEat/dashboard', userData.uid]);
       }),
       catchError((error) => {
