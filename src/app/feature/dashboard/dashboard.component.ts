@@ -10,8 +10,8 @@ import { Post } from '../../model/posting.model';
 import { EditProfileComponent } from './edit-profile-dialog/edit-profile.component';
 import { PostComponent } from './post-dialog/post.component';
 import { Store, select } from '@ngrx/store';
-import { AuthState } from 'src/app/auth/auth/reducers';
-import { currentUser } from 'src/app/auth/auth/auth.selectors';
+import { AuthState } from 'src/app/auth/auth/store';
+import { currentUser } from 'src/app/auth/auth/store/auth.selectors';
 
 @Component({
     selector: 'app-dashboard',

@@ -14,8 +14,8 @@ import { ImageCroppedEvent, ImageCropperModule } from 'ngx-image-cropper';
 import { takeUntil } from 'rxjs/operators';
 import { SnackbarService } from 'src/app/service/snackbar.service';
 import { Store, select } from '@ngrx/store';
-import { AuthState } from 'src/app/auth/auth/reducers';
-import { currentUser } from 'src/app/auth/auth/auth.selectors';
+import { AuthState } from 'src/app/auth/auth/store';
+import { currentUser } from 'src/app/auth/auth/store/auth.selectors';
 
 @Component({
     selector: 'app-posting',
@@ -40,6 +40,8 @@ export class PostingComponent implements OnInit, OnDestroy{
   croppedImageFile: any = '';
   editModeImage : any = '';
   private currentUserSubscription: Subscription;
+  errorOccurred: boolean = false;
+  errorMessage: string = '';
 
   constructor(
     private searchService: SearchService,
@@ -60,10 +62,10 @@ export class PostingComponent implements OnInit, OnDestroy{
       this.editModePosting = null;
     }
   }
-  
+
   ngOnInit() {
     // Always retrieve currentUser
-    this.currentUserSubscription = this.store.pipe(select(currentUser))
+    this.currentUserSubscription = this.store.select(currentUser)
       .pipe(takeUntil(this.destroy$))
       .subscribe(currentUser => {
         this.currentUser$ = currentUser;
@@ -188,7 +190,6 @@ export class PostingComponent implements OnInit, OnDestroy{
     }
   }
 
-  // Handle image cropping event
   imageCropped(event: ImageCroppedEvent) {
     // Convert the base64 cropped image to a Blob
     this.croppedImageFile = event.blob

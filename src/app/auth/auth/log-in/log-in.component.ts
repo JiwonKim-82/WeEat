@@ -1,13 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'; 
 import { Router } from '@angular/router';
-import { Observable, Subscription, noop, tap } from 'rxjs';
-import { AuthState } from '../reducers';
+import { Observable, Subscription} from 'rxjs';
+import { AuthState } from '../store';
 import { Store, select } from '@ngrx/store';
-import { login } from '../auth.actions';
-import { isLoggedOut } from '../auth.selectors';
-import { AuthActions } from '../action-types';
-import { User } from '../model/user.model';
+import { isLoggedOut } from '../store/auth.selectors';
+import { AuthActions } from '../store/action-types';
 
 @Component({
     selector: 'app-log-in',
@@ -42,9 +40,7 @@ export class LogInComponent implements OnInit, OnDestroy {
   onLogin() {
     if (this.loginForm.valid) {
       const val = this.loginForm.value;
-  
       this.store.dispatch(AuthActions.login({ email: val.email, password: val.password }))
-      
     }
   }
 

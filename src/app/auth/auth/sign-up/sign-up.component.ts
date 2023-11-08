@@ -1,16 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { User } from '../auth/auth/model/user.model';
-import { AuthService } from '../service/auth.service';
-import { FileUpload } from '../model/file-upload.model';
-import { FirebaseService } from '../service/firebase.service';
+import { User } from '../model/user.model';
+import { AuthService } from '../../../service/auth.service';
+import { FileUpload } from '../../../model/file-upload.model';
+import { FirebaseService } from '../../../service/firebase.service';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatButtonModule } from '@angular/material/button';
 import { NgIf } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatStepperModule } from '@angular/material/stepper';
+import { Store } from '@ngrx/store';
+import { AuthState } from '../store';
+import { AuthActions } from '../store/action-types';
 
 @Component({
     selector: 'app-sign-up',
@@ -25,7 +28,8 @@ export class SignUpComponent implements OnInit{
     private builder: FormBuilder,
     private firebaseService: FirebaseService,
     private router: Router,
-    private auth: AuthService
+    private auth: AuthService,
+    private store: Store<AuthState>
   ) {}
 
   user: User|null;
@@ -68,39 +72,22 @@ export class SignUpComponent implements OnInit{
     }
   }
 
-  async handleSignUp() {
-    if (this.rgForm.valid) {
-      const userCredential = await this.auth.signIn(
-        this.rgForm.value.email,
-        this.rgForm.value.password,
-        this.rgForm.value.userName
-      );
-
-      if (!this.selectedFile) {
-        const lowercaseName = this.rgForm.value.userName.toLowerCase().trim();
-        const user = new User(
-          userCredential.uid,
-          userCredential.userName,
-          lowercaseName,
-          userCredential.email,
-          'assets/images/default-profile-image.webp'
-        );
-        await this.firebaseService.uploadUser(user);
-      } else {
-        const file = this.selectedFile.item(0);
-        const fileUpload = new FileUpload(file);
-        const lowercaseName = userCredential.userName.toLowerCase().trim();
-        const user = new User(
-          userCredential.uid,
-          userCredential.userName,
-          lowercaseName,
-          userCredential.email,
-          userCredential.password
-        );
-        await this.firebaseService.uploadProfileImage(user, fileUpload);
-      }
-      this.router.navigate(['/login']);
-    } 
+  handleSignUp() {
+    let fileUpload: FileUpload | null = null; 
+  
+    if (this.selectedFile) {
+      const file = this.selectedFile.item(0);
+      fileUpload = new FileUpload(file); 
+    }
+  
+    const user = {
+      email: this.rgForm.value.email,
+      password: this.rgForm.value.password,
+      displayName: this.rgForm.value.userName,
+      file: fileUpload, 
+    };
+  
+    this.store.dispatch(AuthActions.signup(user));
   }
 
 }

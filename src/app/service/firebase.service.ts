@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
-import { Observable, from } from 'rxjs';
-import { catchError, finalize, map, take } from 'rxjs/operators';
+import { Observable, from, of, throwError } from 'rxjs';
+import { catchError, concatMap, exhaustMap, finalize, map, switchMap, take, tap } from 'rxjs/operators';
 import { FileUpload } from '../model/file-upload.model';
 import { Post } from '../model/posting.model';
 import { User} from '../auth/auth/model/user.model';
@@ -68,30 +68,40 @@ export class FirebaseService{
     });
   }
 
-  // Upload a user's profile image to Firebase Storage.
-  uploadProfileImage(user: User, fileUpload: FileUpload) {
+  
+  uploadProfileImage(user: User, fileUpload: FileUpload): Observable<User> {
+    console.log('got user', user)
+    console.log(fileUpload.file)
     const filePath = `user-profiles/${user.uid}`;
     const storageRef = this.storage.ref(filePath);
     const uploadTask = this.storage.upload(filePath, fileUpload.file);
-  
-    uploadTask.snapshotChanges().pipe(
-      finalize(() => {
-        storageRef.getDownloadURL().subscribe((downloadURL) => {
-          fileUpload.url = downloadURL;
-          fileUpload.name = fileUpload.file.name;
-          user.profileURL = downloadURL;
-          this.uploadUser(user);
-        });
-      })
-    ).subscribe();
+
+    return new Observable((observer) => {
+      uploadTask.then(
+        (snapshot) => {
+          snapshot.ref.getDownloadURL().then((downloadURL) => {
+            user.profileURL = downloadURL;
+            observer.next(user);
+            observer.complete();
+          });
+        },
+        (error) => {
+          observer.error(error);
+        }
+      );
+    });
   }
-  
-  // Upload user data with profileURL to the Realtime Database.
-  uploadUser(user: User): void {
+
+
+  uploadUser(user: User): Observable<User> {
     const updates = {};
     updates[user.uid] = user;
-    this.db.object(`users`).update(updates);
+
+    return from(this.db.object('users').update(updates)).pipe(
+      map(() => user)
+    );
   }
+
   
   // Get user data by UID.
   getUserWithUid(uid:string): Observable<User | null>{

@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -19,9 +19,9 @@ import { NgFor, NgIf } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { Store, select } from '@ngrx/store';
-import { AuthState } from '../auth/auth/reducers';
-import { logout } from '../auth/auth/auth.actions';
-import { currentUser } from '../auth/auth/auth.selectors';
+import { AuthState } from '../auth/auth/store';
+import { logout } from '../auth/auth/store/auth.actions';
+import { currentUser } from '../auth/auth/store/auth.selectors';
 
 @Component({
     selector: 'app-side-navbar',

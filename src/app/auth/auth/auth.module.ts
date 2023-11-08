@@ -8,10 +8,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { RouterModule } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
-import * as fromAuth from './reducers';
+import * as fromAuth from './store';
 import { AuthGuard } from './auth.guard';
 import { EffectsModule } from '@ngrx/effects';
-import { AuthEffects } from './auth.effects';
+import { AuthEffects } from './store/auth.effects';
 
 
 @NgModule({

@@ -8,8 +8,8 @@ import { FirebaseService } from 'src/app/service/firebase.service';
 import { SnackbarService } from 'src/app/service/snackbar.service';
 import { ConfirmDialogComponent, ConfirmDialogModel } from 'src/app/shared/confirm-dialog/confirm-dialog.component';
 import { Store, select } from '@ngrx/store';
-import { currentUser } from 'src/app/auth/auth/auth.selectors';
-import { AuthState } from 'src/app/auth/auth/reducers';
+import { currentUser } from 'src/app/auth/auth/store/auth.selectors';
+import { AuthState } from 'src/app/auth/auth/store';
 
 @Component({
     selector: 'app-post',

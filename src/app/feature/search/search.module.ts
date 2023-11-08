@@ -14,6 +14,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { RouterModule, Routes } from '@angular/router';
+import { MatMenuModule } from '@angular/material/menu';
 
 const routes: Routes = [
     { path: '', component: SearchComponent },
@@ -28,6 +29,7 @@ const routes: Routes = [
       MatFormFieldModule,
       MatButtonModule,
       MatCardModule,
+      MatMenuModule,
       MatRippleModule,
       MatProgressSpinnerModule,
       MatIconModule,

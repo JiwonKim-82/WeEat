@@ -16,7 +16,7 @@
             <mat-form-field class="grid-item">
               <mat-label>Enter your username</mat-label>
               <input matInput id="username" placeholder="minimum length 8" formControlName="userName">
-              <mat-error *ngIf="rgForm.get('userName').invalid && rgForm.get('userName').touched">Username has to be minimum 8 characters</mat-error>
+              <mat-error *ngIf="rgForm.get('userName').invalid && rgForm.get('userName').touched">Username has to be minimum 4 characters</mat-error>
             </mat-form-field>
             <mat-form-field class="grid-item">
               <mat-label>Enter your password</mat-label>

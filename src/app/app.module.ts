@@ -20,6 +20,11 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { AuthModule } from './auth/auth/auth.module';
 import { CommonModule } from '@angular/common';
 import { EffectsModule } from '@ngrx/effects';
+import { MatMenuModule } from '@angular/material/menu';
+
+
+
+
 
 
 @NgModule({
@@ -34,6 +39,7 @@ import { EffectsModule } from '@ngrx/effects';
     MatSnackBarModule,
     MatSidenavModule,
     BrowserAnimationsModule,
+    MatMenuModule,
     HeaderComponent,
     SideNavBarComponent,
     ConfirmDialogComponent,

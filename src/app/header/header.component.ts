@@ -4,7 +4,7 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { Store } from '@ngrx/store';
-import { isLoggedOut } from '../auth/auth/auth.selectors';
+import { isLoggedOut } from '../auth/auth/store/auth.selectors';
 
 @Component({
     selector: 'app-header',
